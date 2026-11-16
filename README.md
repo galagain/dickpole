@@ -68,15 +68,15 @@ the acceleration of their attachment points.
 
 For intuition, a single rigid rod with a translating pivot approximately obeys
 
-$$
+```math
 I\ddot\theta
 = mr(g+\ddot z_b)\sin\theta
 - mr\ddot x_b\cos\theta
 - b\dot\theta.
-$$
+```
 
-Here, $\theta=0$ is upright and $\theta=\pi$ is downward; $(x_b,z_b)$ is the
-pivot position, $r$ the distance to the center of mass, and $I$ the inertia
+Here, $`\theta=0`$ is upright and $`\theta=\pi`$ is downward; $`(x_b,z_b)`$ is the
+pivot position, $`r`$ the distance to the center of mass, and $`I`$ the inertia
 about the pivot. Horizontal acceleration can push the rod toward balance;
 vertical acceleration changes its effective gravity. Tilting the pelvis also
 moves the attachment point. The actual simulation solves the coupled body,
@@ -105,17 +105,17 @@ the lumbar joint and the legs.
 
 The equations of motion have the form
 
-$$
+```math
 M(q)\ddot q + h(q,\dot q)
 = R F_{\mathrm{muscle}} + \tau_{\mathrm{passive}} + J(q)^T\lambda.
-$$
+```
 
-- $q\in\mathbb R^{19}$ contains positions and joint angles.
-- $M(q)$ is the coupled mass and inertia matrix.
-- $h$ contains gravity, Coriolis and centrifugal terms.
-- $R$ maps muscle pulls into joint torques.
-- $\tau_{\mathrm{passive}}$ contains spring and damping forces.
-- $J^T\lambda$ contains contact and joint-limit reactions.
+- $`q\in\mathbb{R}^{19}`$ contains positions and joint angles.
+- $`M(q)`$ is the coupled mass and inertia matrix.
+- $`h`$ contains gravity, Coriolis and centrifugal terms.
+- $`R`$ maps muscle pulls into joint torques.
+- $`\tau_{\mathrm{passive}}`$ contains spring and damping forces.
+- $`J^T\lambda`$ contains contact and joint-limit reactions.
 
 The feet are not welded to the floor. MuJoCo uses **regularized soft contacts**
 with friction to compute support forces, sliding and separation. All body
@@ -132,16 +132,20 @@ There are **14 native MuJoCo muscle actuators**, arranged in antagonistic pairs
 across seven joints. Their force depends on activation, length and shortening
 velocity, with a passive tension component. Schematically, the pull magnitude is
 
-$$
+```math
 F_i = F_{\max,i}\left[
   a_i f_\ell(\tilde\ell_i)f_v(\tilde v_i)
   + f_p(\tilde\ell_i)
-\right],
-\qquad
-\dot a_i = f_{\mathrm{activation}}(e_i,a_i).
-$$
+\right].
+```
 
-Excitation $e_i$ is bounded between 0 and 1. Activation is a dynamic state,
+Muscle activation evolves separately:
+
+```math
+\dot a_i = f_{\mathrm{activation}}(e_i,a_i).
+```
+
+Excitation $`e_i`$ is bounded between 0 and 1. Activation is a dynamic state,
 so changing excitation does not instantly change force. The configured
 activation/deactivation time parameters are **10/40 ms**. Tendon moment arms
 are fixed at **4 cm**, with a force scale of **6,000 N** per actuator.
@@ -181,40 +185,40 @@ controller targets and previous commands, elapsed time, pendulum angle and
 energy features, control phase, and the baseline controller's commands.
 Its three outputs are bounded residual corrections:
 
-$$
+```math
 u_t = \mathrm{clip}\left(
   u_{\mathrm{base}}(s_t) + \alpha(s_t)\,\delta u_{\mathrm{PPO}}(o_t),
   -1,1
 \right).
-$$
+```
 
-During swing-up, $\alpha=0.25$. Near the upright configuration, $\alpha=0$:
+During swing-up, $`\alpha=0.25`$. Near the upright configuration, $`\alpha=0`$:
 the calibrated local controller takes over. Its horizontal and pitch
-corrections use **LQR feedback**, $\delta u=-K\delta s$, obtained from a local
+corrections use **LQR feedback**, $`\delta u=-K\delta s`$, obtained from a local
 linearization of the muscular system. A separate height feedback restores
 the standing target. PPO learns corrections to the ascent; it does not learn
 the muscle reflex or replace the local stabilizer.
 
 Training maximizes a discounted reward,
 
-$$
-J(\pi)=\mathbb E_\pi\left[\sum_t \gamma^t r_t\right],
+```math
+J(\pi)=\mathbb{E}_\pi\left[\sum_t \gamma^t r_t\right],
 \qquad \gamma=0.998.
-$$
+```
 
-Let $H=(1+\cos\theta)/2$, $A$ be the mean squared muscle activation, and
-$\psi$ the pelvis pitch. The physical reward per decision is
+Let $`H=(1+\cos\theta)/2`$, $`A`$ be the mean squared muscle activation, and
+$`\psi`$ the pelvis pitch. The physical reward per decision is
 
-$$
-r_t = 2H^2 + 6\,\mathbf 1_{\mathrm{upright}}
-+ 0.3(1-|1-\mathcal E|)
+```math
+r_t = 2H^2 + 6\,\mathbf{1}_{\mathrm{upright}}
++ 0.3(1-|1-\mathcal{E}|)
 - 0.005A - 0.03\psi^2.
-$$
+```
 
-A body fall adds a penalty of $-2$. PPO receives this reward multiplied by
+A body fall adds a penalty of $`-2`$. PPO receives this reward multiplied by
 0.01 to keep value estimates manageable; evaluation reports unscaled rewards.
 
-$\mathcal E$ is the three-segment mechanical energy relative to the moving
+$`\mathcal{E}`$ is the three-segment mechanical energy relative to the moving
 pivot, including rotational inertia and bending springs, normalized so that
 **downward at rest is 0** and **upright at rest is 1**. The energy term helps
 discover swing-up before the policy has achieved an upright hold. The reward
