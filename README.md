@@ -1,346 +1,229 @@
 <h1 align="center">DickPole</h1>
-<p align="center"><strong>A ridiculous balancing problem. Real physics.</strong></p>
+<p align="center"><strong>One ridiculous humanoid. Two control problems. Real physics.</strong></p>
 
-<p align="center">
-  <a href="media/presentation.mp4">
-    <img src="media/presentation.gif" alt="A muscle-driven humanoid swinging the pendulum upright and balancing it" width="768">
-  </a>
-</p>
+<table>
+<tr><th>Balance</th><th>Fast rotation</th></tr>
+<tr>
+<td><a href="media/balance.mp4"><img src="media/balance.gif" width="384" alt="Swinging up and balancing from a hanging start"></a></td>
+<td><a href="media/spin.mp4"><img src="media/spin.gif" width="384" alt="Muscle-driven frontal helicopter rotations"></a></td>
+</tr>
+</table>
 
-An anatomically inspired take on **CartPole**: swing a hanging penis upright
-and keep it balanced using only pelvis motion.
+Swing a hanging appendage upright, or make it rotate quickly in front of the
+body. Both tasks use **exactly the same 3D MuJoCo humanoid**, with 24 muscles,
+articulated legs, passive arms and testicles, and frictional ground contact.
+Only the pelvis motion targets can be commanded. The appendage has no motor.
 
-The environment is a planar MuJoCo humanoid with **14 muscles**, articulated
-legs and ground contact. The included controller combines residual PPO,
-local LQR stabilization and simulation-based policy selection.
+The root meets a rounded pelvis through a short flesh-coloured attachment;
+there is no remote pivot or stand-off bar. The three-segment shaft is 21 cm
+long. Both demonstrations show the first ten seconds of a real rollout.
 
-## Quick start
+## Run the trained controllers
 
-Use Python 3.13. The pretrained model is included in `models/pretrained`.
+Use Python 3.13. Both checkpoints are included.
 
 ```bash
 python3.13 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 
-# Watch the pretrained controller
-.venv/bin/mjpython main.py play
+# Swing up from below and balance — reproducible demonstration
+.venv/bin/mjpython main.py play --task balance --seed 7
+
+# Rotate quickly, using the same body and attachment
+.venv/bin/mjpython main.py play --task spin --seed 3000
 ```
 
-On macOS, use `mjpython` for the viewer. Allow a few seconds for the controller
-to be selected before playback starts.
+On macOS, use `mjpython` for the viewer. Controller selection first evaluates
+learned profiles in independent simulator copies. The live episode then starts
+**hanging down at rest**. Playback repeats the requested seed.
+Use `--no-plan` to run profile zero directly, without simulator lookahead.
 
-## Explore the environment
+| Task | Checkpoint | Measured result |
+| --- | --- | --- |
+| Balance | `models/balance` | **17.16 s** continuous free upright hold in a 20 s episode, seed 7 |
+| Fast rotation | `models/spin` | **2.84 turns/s** mean after the initial four seconds; **10/10** tested seeds succeeded |
 
-```bash
-.venv/bin/mjpython main.py env
-```
+**Balance is seed-sensitive.** The seed-7 demonstration is reproducible, but
+this is not a generally robust swing-up solution. The separate initial-state
+checks are reported in [balance validation](reports/balance_validation.json).
+The rotation results use seeds 3000–3009, distinct from training seed 7;
+see [rotation validation](reports/spin_validation.json).
+These measurements include simulator-based profile selection.
 
-**Controls:** ← / → move the pelvis · ↑ / ↓ change height · A / D tilt ·
-Space pause · R reset.
-
-## Train
-
-```bash
-# Train a new policy
-.venv/bin/python main.py train --steps 262144
-
-# Fine-tune the included pretrained policy
-.venv/bin/python main.py train --pretrained --steps 262144
-```
-
-Training runs PPO, refines the policy heads and builds a controller library
-in `outputs/training`. To run your trained model:
+## Train either goal
 
 ```bash
-.venv/bin/mjpython main.py play --model outputs/training
-```
-
-## Helicopter mode
-
-A second task learns **front-facing 3D rotations** instead of upright balance.
-The appendage starts hanging down at rest. Only lateral and vertical pelvis
-motion can be commanded; the rotor remains passive.
-
-[![Helicopter simulation](media/spin.gif)](media/spin.mp4)
-
-```bash
-# Watch the included helicopter controller
-.venv/bin/mjpython main.py play --task spin
-
-# Move the pelvis manually: arrows for lateral motion and height
-.venv/bin/mjpython main.py env --task spin
-
-# Learn controller parameters from episode rewards
+# Fit two independent policies on the common 3D environment
+.venv/bin/python main.py train --task balance --steps 262144
 .venv/bin/python main.py train --task spin --steps 262144
 
-# Continue from the included controller
+# Continue training from an included checkpoint
+.venv/bin/python main.py train --task balance --pretrained --steps 262144
 .venv/bin/python main.py train --task spin --pretrained --steps 262144
 
-# Play / evaluate a newly trained controller
-.venv/bin/mjpython main.py play --task spin --model outputs/spin_training
-.venv/bin/python main.py evaluate --task spin --model outputs/spin_training
+# Run your trained policies
+.venv/bin/mjpython main.py play --task balance --model outputs/balance --seed 7
+.venv/bin/mjpython main.py play --task spin --model outputs/spin --seed 3000
 ```
 
-### Physics and objective
+Training uses **episodic cross-entropy policy search (CEM)**. It samples
+controller parameters, runs physical episodes, retains the strongest policies,
+and updates the sampling distribution. The controllers start from calibrated
+pumping strategies; this is parameter search, not a neural PPO policy or
+learning individual muscle control from scratch.
 
-This task extends the body to **27 degrees of freedom and 24 Hill-type
-muscles**, adding lateral pelvis translation, pelvis roll and antagonist
-muscles for lateral trunk, hip and ankle control. Feet remain supported by
-frictional ground contacts. Pelvis yaw is constrained. A passive hinge rotates
-the appendage in the frontal plane; passive bending allows out-of-plane motion.
-A fixed **0.28 m anterior stand-off** provides clearance for complete turns.
-This deliberately simplified attachment is not anatomical validation.
+Balance learns nine energy-shaping, capture and feedback parameters. A bank of
+local LQR controllers stabilizes the upright phase, with references for seven
+lateral stance offsets. Spin learns eight oscillator parameters, including
+amplitudes, phase feedback and speed-dependent energy reduction. Failed and
+successful profiles can provide complementary behaviour in the final library.
 
-With $`\theta`$ measured relative to the pelvis, downward is zero. For an
-ideal rigid pendulum, lateral and vertical pivot accelerations obey
+`--steps` is a simulation-decision budget, rounded up to complete the current
+episode. `--population`, `--rounds`, `--seed` and `--output` control the search.
+Balance identification uses upright poses **only for offline linearization**;
+training episodes, evaluation and playback always begin hanging down.
+
+## Explore and evaluate
+
+```bash
+.venv/bin/mjpython main.py env --task balance
+.venv/bin/mjpython main.py env --task spin
+
+# Reproduce the balance demonstration
+.venv/bin/python main.py evaluate --task balance --seed 7 --episodes 1
+
+# Test different initial states
+.venv/bin/python main.py evaluate --task balance --seed 3000 --episodes 10
+.venv/bin/python main.py evaluate --task spin --seed 3000 --episodes 10
+
+# Export ten seconds of environment-only footage; requires FFmpeg
+.venv/bin/python main.py video --task balance --seed 7
+.venv/bin/python main.py video --task spin --seed 3000
+```
+
+**Manual controls:** ← / → lateral pelvis motion · ↑ / ↓ height · Space pause · R reset.
+Evaluation reports are written to `outputs/<task>_evaluation.json`.
+
+## Shared environment architecture
+
+```python
+from dickpole import HumanoidEnv
+
+balance = HumanoidEnv(task="balance")
+spin = HumanoidEnv(task="spin")
+```
+
+The task changes the objective and a goal indicator in the observation.
+**Geometry, masses, joint limits, muscles, contacts, initial-state distribution
+and the two-action interface are shared.** Applying the same actions from the
+same seed produces identical physical trajectories in both tasks.
+
+- [humanoid.py](dickpole/humanoid.py): common 3D model, state, actions and task rewards.
+- [environment.py](dickpole/environment.py): skeleton construction and muscle reflex.
+- [learning.py](dickpole/learning.py): shared CEM training loop.
+- [policy.py](dickpole/policy.py): checkpoint validation, selection and evaluation.
+- [calibration.py](dickpole/calibration.py): local LQR identification.
+- [models/humanoid.xml](models/humanoid.xml): exported physical model.
+
+Each checkpoint records the same physical-model SHA-256 fingerprint and its
+task. Loading a checkpoint for another geometry or goal raises an error.
+
+## Physics and mathematical problem
+
+The system has **27 degrees of freedom**: pelvis translation in three axes,
+pelvis pitch and roll, articulated trunk and legs, passive arms, a frontal
+rotor with out-of-plane bending, and two suspended testicular masses.
+Pelvis yaw is constrained. Feet are not welded to the ground.
+
+MuJoCo integrates at **500 Hz** using `implicitfast`; the controller acts at
+**50 Hz**. The full constrained multibody dynamics have the form
 
 ```math
-I\ddot\theta + c\dot\theta + mgl\sin\theta
-= -ml\left(\ddot y_p\cos\theta + \ddot z_p\sin\theta\right).
+M(q)\ddot q + C(q,\dot q)+g(q)
+= J_m(q)^T F_m + J_c(q)^T\lambda
+- D\dot q-\nabla V_{\mathrm{passive}}(q).
 ```
 
-MuJoCo solves the complete articulated system, including muscle activation,
-body reactions and contacts. There is **no rotor torque command** and no
-externally applied force to hold the body upright. Actions change bounded
-pelvis position targets, which the muscle reflex attempts to track.
+Here $`M`$ is the inertia matrix, $`F_m`$ the muscle forces and $`\lambda`$ the
+contact reactions. Ground friction and contact forces are solved by MuJoCo.
+The body is supported by its feet and muscles; no external force holds it up.
 
-The policy first pumps the pendulum for four seconds, then uses angle feedback
-to synchronize lateral and vertical pelvis targets. A speed-dependent amplitude
-reduction limits further energy input. **Cross-entropy policy search (CEM)**
-learns eight controller parameters from physical rollouts: amplitudes, frequency,
-phase, feedback mix, height, vertical phase and a speed threshold. This extension
-uses episodic parameter search, rather than the balance task's residual PPO.
-The controller includes a designed pumping pattern; it does not learn from
-unstructured muscle commands.
+The **24 native Hill-type muscle actuators** form antagonist pairs across the
+trunk, hips, knees and ankles. Their force depends on activation, length and
+shortening velocity. Activation has separate rise and fall time constants of
+10 and 40 ms. Fixed tendon moment arms are 4 cm. A postural reflex converts
+pelvis targets into joint torque requests and bounded muscle excitations.
+Gravity and passive spring/damper joints drive the unactuated appendages.
 
-For signed rotor advance $`\Delta\theta`$, decision interval $`\Delta t`$,
-mean squared muscle activation $`A`$ and target speed $`\omega_* = 2\pi`$,
-the environment reward is
+The two actions are bounded lateral and vertical pelvis target velocities:
 
 ```math
-r_t = \frac{8\Delta\theta_{\mathrm{credited}}}{2\pi}
-- \Delta t\left[0.01(\dot\theta-\omega_*)^2 + 0.005A
-+ 2\mathbf{1}_{\mathrm{contact}}\right]
-- 5\mathbf{1}_{\mathrm{fall}}.
+a_t=(a_y,a_z)\in[-1,1]^2,\qquad
+\dot y_* =0.5a_y,\quad \dot z_*=0.5a_z.
 ```
 
-Positive advances earn credit only without appendage contact; reverse motion
-always loses credit. Search also rewards improvements to the episode's best
-continuous rotation streak. CEM ranks survival and the best free rotation
-streak first, followed by signed turns and episode return.
-Back-and-forth swings cannot accumulate full turns.
-Contact, sustained stalling or reversal resets the current streak. A rotation
-is measured relative to the pelvis, so rolling the whole body does not count.
-A successful episode requires **three consecutive free turns and no body fall
-throughout 20 seconds**. Candidate policies are selected using independent
-simulation copies before the live rollout, as in balance mode.
+Targets are bounded to $`y_*\in[-0.14,0.14]`$ m and
+$`z_*\in[0.78,0.87]`$ m. Actual motion follows muscle dynamics and contact
+constraints; writing an action does not set the physical pelvis position.
+Observations contain joint positions and velocities, muscle activations,
+targets, previous actions, rotor angle and speed, time and the task indicator.
 
-The bundled helicopter library passed **10/10 held-out episodes**, with
-**23.2 turns in the mean best continuous streak** and no body falls.
-See the [full helicopter validation](reports/spin_validation.json).
-These results include simulation-based policy selection and describe this
-mechanical model, rather than human anatomy.
-
-## The control problem
-
-DickPole is a **swing-up and balance problem**. The appendage starts pointing
-straight down with zero velocity. The controller must inject energy through
-pelvis motion, catch the unstable upright configuration, and keep it there
-without falling or resting the appendage against the body.
-
-The problem is **underactuated**: there is no actuator on the penis or the
-testicles. Their motion emerges from gravity, passive joints, collisions and
-the acceleration of their attachment points.
-
-For intuition, a single rigid rod with a translating pivot approximately obeys
+For intuition, a rigid frontal pendulum with angle $`\theta=0`$ downward obeys
 
 ```math
-I\ddot\theta
-= mr(g+\ddot z_b)\sin\theta
-- mr\ddot x_b\cos\theta
-- b\dot\theta.
+I\ddot\theta+c\dot\theta+mgl\sin\theta
+=-ml\left(\ddot y_p\cos\theta+\ddot z_p\sin\theta\right),
 ```
 
-Here, $`\theta=0`$ is upright and $`\theta=\pi`$ is downward; $`(x_b,z_b)`$ is the
-pivot position, $`r`$ the distance to the center of mass, and $`I`$ the inertia
-about the pivot. Horizontal acceleration can push the rod toward balance;
-vertical acceleration changes its effective gravity. Tilting the pelvis also
-moves the attachment point. The actual simulation solves the coupled body,
-not just this single-rod approximation.
+where $`l`$ is its centre-of-mass distance from the pivot. MuJoCo solves the
+complete three-segment body rather than this single-rod approximation.
+The controller must inject or remove pendulum energy through pivot motion.
 
-## Physics engine
+### Balance objective
 
-[MuJoCo](https://mujoco.readthedocs.io/en/stable/computation/index.html)
-solves the articulated-body dynamics and contact forces. The model has
-**19 mechanical degrees of freedom**:
-
-| Part | Degrees of freedom |
-| --- | ---: |
-| Pelvis: horizontal position, height and pitch | 3 |
-| Lumbar joint | 1 |
-| Two shoulders and two elbows | 4 |
-| Two hips, knees and ankles | 6 |
-| Three appendage joints | 3 |
-| Two suspended testicles | 2 |
-
-The geometry is three-dimensional, but joint motion is restricted to the
-sagittal plane. The penis is a chain of three rigid segments with passive
-bending springs and damping. The testicles use rigid pendular attachments
-with torsional compliance. Shoulders and elbows are passive; muscles actuate
-the lumbar joint and the legs.
-
-The equations of motion have the form
+The reward encourages height and free upright time while penalizing speed,
+contact and body falls. With $`U`$ indicating a valid upright hold,
 
 ```math
-M(q)\ddot q + h(q,\dot q)
-= R F_{\mathrm{muscle}} + \tau_{\mathrm{passive}} + J(q)^T\lambda.
+r_t=\Delta t\left[2(1-\cos\theta)^2+20U
+-0.02\dot\theta^2-2\mathbf{1}_{\mathrm{contact}}\right]
+-5\mathbf{1}_{\mathrm{fall}}.
 ```
 
-- $`q\in\mathbb{R}^{19}`$ contains positions and joint angles.
-- $`M(q)`$ is the coupled mass and inertia matrix.
-- $`h`$ contains gravity, Coriolis and centrifugal terms.
-- $`R`$ maps muscle pulls into joint torques.
-- $`\tau_{\mathrm{passive}}`$ contains spring and damping forces.
-- $`J^T\lambda`$ contains contact and joint-limit reactions.
+A valid hold requires the base-to-tip direction to lie within **0.21 rad of
+world vertical**, angular speed below **1 rad/s**, and no appendage contact.
+An episode succeeds with at least five continuous seconds of free balance and
+no body fall throughout the 20-second episode. A fall means pelvis height below
+0.55 m, pitch beyond 0.7 rad, or roll beyond 0.6 rad. LQR catches the upright phase;
+the energy-shaping policy supplies the ascent.
 
-The feet are not welded to the floor. MuJoCo uses **regularized soft contacts**
-with friction to compute support forces, sliding and separation. All body
-segments can contact the ground. Appendages can also contact the body; other
-skeletal self-collisions are filtered to avoid overlaps between simplified
-capsule geometries.
+### Fast-rotation objective
 
-Physics advances every **2 ms (500 Hz)** with MuJoCo's `implicitfast` integrator.
-The controller acts every **20 ms (50 Hz)**, with ten physics steps per decision.
-
-### Muscles and pelvis commands
-
-There are **14 native MuJoCo muscle actuators**, arranged in antagonistic pairs
-across seven joints. Their force depends on activation, length and shortening
-velocity, with a passive tension component. Schematically, the pull magnitude is
+Rotation is measured **relative to the pelvis**, using the unlimited rotor
+coordinate to count signed turns. Rolling the body or repeatedly swinging
+back and forth cannot accumulate free consecutive revolutions.
+With $`A`$ the mean squared muscle activation and $`\omega_*=4\pi`$ rad/s,
 
 ```math
-F_i = F_{\max,i}\left[
-  a_i f_\ell(\tilde\ell_i)f_v(\tilde v_i)
-  + f_p(\tilde\ell_i)
-\right].
+r_t=\frac{8\Delta\theta_{\mathrm{credited}}}{2\pi}
+-\Delta t\left[0.01(\dot\theta-\omega_*)^2+0.005A
++2\mathbf{1}_{\mathrm{contact}}\right]
+-5\mathbf{1}_{\mathrm{fall}}.
 ```
 
-Muscle activation evolves separately:
+Positive advance earns credit only in free motion; reverse motion always
+loses credit. Contact, reversal or sustained stalling resets the current
+streak. A successful fast-rotation episode needs three consecutive free turns,
+mean signed free speed of at least **1.5 turns/s after four seconds**, and no
+body fall. The 2 turns/s reward target is soft, rather than a hard speed limit.
+Search additionally rewards improvements to the best episode hold or streak.
 
-```math
-\dot a_i = f_{\mathrm{activation}}(e_i,a_i).
+This is an approximate mechanical benchmark, not a validated anatomical model.
+It uses rigid segments, generic muscle parameters and fixed tendon routing;
+it does not simulate volumetric tissue, blood flow, fatigue or learned walking.
+
+## Checks
+
+```bash
+.venv/bin/python -m unittest discover -s tests -q
 ```
-
-Excitation $`e_i`$ is bounded between 0 and 1. Activation is a dynamic state,
-so changing excitation does not instantly change force. The configured
-activation/deactivation time parameters are **10/40 ms**. Tendon moment arms
-are fixed at **4 cm**, with a force scale of **6,000 N** per actuator.
-See the [MuJoCo muscle model](https://mujoco.readthedocs.io/en/stable/modeling.html#muscle-actuators).
-
-The high-level controller requests three pelvis target velocities:
-
-| Request | Maximum target rate | Target range |
-| --- | ---: | ---: |
-| Horizontal translation | 0.6 m/s | ±0.14 m in the stance frame |
-| Pelvis pitch | 2.4 rad/s | ±0.30 rad |
-| Height | 0.5 m/s | 0.70–0.87 m |
-
-These requests are integrated into pose targets. The hybrid controller caps
-its height target at its calibrated standing height, approximately 0.8515 m.
-**Targets are not imposed on the body**: a postural reflex computes joint
-requests, then converts them into muscle excitations. Actual movement follows
-from muscle forces, inertia and ground reactions. No external propulsion force
-is applied directly to the pelvis.
-
-## Learning and stabilization
-
-```mermaid
-flowchart LR
-    O[State observation] --> B[Energy feedback / local LQR]
-    O --> P[PPO correction during swing-up]
-    B --> U[Pelvis target velocities]
-    P --> U
-    U --> R[Postural reflex]
-    R --> M[14 muscles]
-    M --> D[MuJoCo dynamics and ground contacts]
-    D --> O
-```
-
-PPO receives **67 observation values**: mechanical state, muscle activations,
-controller targets and previous commands, elapsed time, pendulum angle and
-energy features, control phase, and the baseline controller's commands.
-Its three outputs are bounded residual corrections:
-
-```math
-u_t = \mathrm{clip}\left(
-  u_{\mathrm{base}}(s_t) + \alpha(s_t)\,\delta u_{\mathrm{PPO}}(o_t),
-  -1,1
-\right).
-```
-
-During swing-up, $`\alpha=0.25`$. Near the upright configuration, $`\alpha=0`$:
-the calibrated local controller takes over. Its horizontal and pitch
-corrections use **LQR feedback**, $`\delta u=-K\delta s`$, obtained from a local
-linearization of the muscular system. A separate height feedback restores
-the standing target. PPO learns corrections to the ascent; it does not learn
-the muscle reflex or replace the local stabilizer.
-
-Training maximizes a discounted reward,
-
-```math
-J(\pi)=\mathbb{E}_\pi\left[\sum_t \gamma^t r_t\right],
-\qquad \gamma=0.998.
-```
-
-Let $`H=(1+\cos\theta)/2`$, $`A`$ be the mean squared muscle activation, and
-$`\psi`$ the pelvis pitch. The physical reward per decision is
-
-```math
-r_t = 2H^2 + 6\,\mathbf{1}_{\mathrm{upright}}
-+ 0.3(1-|1-\mathcal{E}|)
-- 0.005A - 0.03\psi^2.
-```
-
-A body fall adds a penalty of $`-2`$. PPO receives this reward multiplied by
-0.01 to keep value estimates manageable; evaluation reports unscaled rewards.
-
-$`\mathcal{E}`$ is the three-segment mechanical energy relative to the moving
-pivot, including rotational inertia and bending springs, normalized so that
-**downward at rest is 0** and **upright at rest is 1**. The energy term helps
-discover swing-up before the policy has achieved an upright hold. The reward
-is a learning objective; the reported outcome is the actual continuous hold.
-
-### Why simulate multiple policies?
-
-A cross-entropy search refines gains and biases in the PPO output layer,
-producing complementary policy heads. Before an episode, the controller tests
-candidates on independent copies of the current MuJoCo model and state, then
-executes a selected policy in the untouched live environment.
-
-This is **model-based hybrid control**, with access to the simulator's physics.
-The planning rollouts do not move the live body or count toward its hold time.
-The pretrained library also includes a zero-residual baseline; the successful
-controller need not be a learned head in every episode.
-
-## Success and scope
-
-An upright hold requires all three conditions:
-
-- Angle within **0.21 rad (about 12°)** of vertical.
-- Angular speed below **1 rad/s**.
-- **No appendage contact** with the body, ground or another non-appendage object.
-
-A fall occurs if pelvis height drops below 0.55 m or its pitch exceeds 0.7 rad.
-An episode succeeds with at least **5 continuous seconds** of free upright
-balance and no body fall over the full episode.
-
-The bundled system passed **20/20 evaluated episodes of 40 seconds**, with
-**36.0 seconds mean continuous hold**. These results describe the complete
-hybrid controller, including planning, on the provided physical model.
-See [validation results](reports/validation.json).
-
-This is a simplified mechanical benchmark, not a validated anatomical model.
-It uses rigid segments, approximate muscle parameters and fixed tendon moment
-arms. It does not simulate volumetric soft tissue, blood flow, muscle fatigue,
-an independently learned walking controller. Balance mode is planar; helicopter
-mode adds the lateral degrees of freedom described above.

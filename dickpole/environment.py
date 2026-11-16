@@ -1,17 +1,16 @@
-"""Sagittal musculoskeletal DickPole. All propulsion comes from muscles/contact."""
+"""Skeleton construction and muscle reflex shared by both 3D tasks."""
 import math
 import xml.etree.ElementTree as ET
 
 import gymnasium as gym
 import mujoco
 import numpy as np
-from gymnasium import spaces
 
 
 JOINTS = ('lumbar', 'hip_l', 'knee_l', 'ankle_l', 'hip_r', 'knee_r', 'ankle_r')
 
 
-def model_xml():
+def base_skeleton_xml():
     root = ET.Element('mujoco', model='DickPole musculoskeletal')
     ET.SubElement(root, 'compiler', angle='radian', autolimits='true')
     ET.SubElement(root, 'option', timestep='.002', integrator='implicitfast', iterations='60', gravity='0 0 -9.81')
@@ -85,37 +84,10 @@ def model_xml():
     return ET.tostring(root, encoding='unicode')
 
 
-class MuscleHumanoid(gym.Env):
+class MusculoskeletalBase(gym.Env):
     """Pelvis translation, tilt and height commands with a muscle reflex."""
     metadata = {'render_modes': []}
     dt = .02
-
-    def __init__(self, duration=20.):
-        self.model = mujoco.MjModel.from_xml_string(model_xml())
-        self.data = mujoco.MjData(self.model)
-        self.duration = duration
-        self.tilt_rate = 2.4
-        self._tip_jac = np.zeros((3, self.model.nv))
-        self._base_jac = np.zeros((3, self.model.nv))
-        self._com_jac = np.zeros((3, self.model.nv))
-        self._rotation_jac = np.zeros((3, self.model.nv))
-        self.qids = {name: int(self.model.jnt_qposadr[self.model.joint(name).id])
-                     for name in JOINTS + ('root_x', 'root_z', 'root_pitch', 'pole_0_joint')}
-        self.dofs = {name: int(self.model.jnt_dofadr[self.model.joint(name).id]) for name in self.qids}
-        self.action_space = spaces.Box(-1., 1., (3,), dtype=np.float32)
-        self.reset()
-        self.observation_space = spaces.Box(-np.inf, np.inf, self.observe().shape, dtype=np.float32)
-
-    def observe(self):
-        q, v = self.data.qpos.copy(), self.data.qvel
-        q[0] -= self.support_origin
-        angle, speed = self.pole_state()
-        extra = [self.target_height, self.last_height_action]
-        return np.concatenate((q, v*.2, self.data.act,
-                               [self.target_x, self.last_action, self.data.time/20.,
-                                math.sin(angle), math.cos(angle), speed*.1,
-                                self.target_pitch, self.last_pitch_action,
-                                float(self.balance_mode), min(5., self.pole_energy())], extra)).astype(np.float32)
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -174,100 +146,11 @@ class MuscleHumanoid(gym.Env):
                 capacity = max(1., abs(gain*.04))
                 d.ctrl[k] = min(1., .015 + max(0., -sign*torque)/capacity)
 
-    def pole_state(self):
-        base = self.data.body('pole_0').xpos
-        tip = self.data.site('pole_tip').xpos
-        direction = tip-base
-        angle = math.atan2(direction[0], direction[2])
-        # Angular speed of the measured base-to-tip direction. Summing hinge
-        # speeds instead measures the terminal segment and is wrong when bent.
-        mujoco.mj_jacSite(self.model, self.data, self._tip_jac, None,
-                          self.model.site('pole_tip').id)
-        mujoco.mj_jacBody(self.model, self.data, self._base_jac, None,
-                          self.model.body('pole_0').id)
-        velocity = (self._tip_jac-self._base_jac) @ self.data.qvel
-        speed = ((direction[2]*velocity[0]-direction[0]*velocity[2]) /
-                 max(1e-10, direction[0]**2+direction[2]**2))
-        return angle, speed
-
     def pole_supported(self):
         """Touching torso/limbs/floor cannot count as free upright balance."""
         pole_geoms = {self.model.geom(f'pole_{i}_geom').id for i in range(3)}
         return any((c.geom1 in pole_geoms) != (c.geom2 in pole_geoms)
                    for c in self.data.contact if c.dist <= 0)
-
-    def pole_energy(self):
-        """Exact rigid-segment energy relative to the translating base.
-
-        Zero is straight down at rest; one is straight up at rest. Includes
-        bending energy, segment inertia and COM translation, not a rod proxy.
-        """
-        m, d = self.model, self.data
-        base = d.body('pole_0').xpos
-        mujoco.mj_jacBody(m, d, self._base_jac, None, m.body('pole_0').id)
-        base_velocity = self._base_jac @ d.qvel
-        energy = minimum = 0.
-        for i in range(3):
-            body = m.body(f'pole_{i}').id
-            mass = m.body_mass[body]
-            mujoco.mj_jacBodyCom(m, d, self._com_jac, self._rotation_jac, body)
-            velocity = self._com_jac @ d.qvel-base_velocity
-            omega = d.ximat[body].reshape(3, 3).T @ (self._rotation_jac @ d.qvel)
-            energy += .5*(mass*float(velocity @ velocity)
-                          + float(m.body_inertia[body] @ (omega*omega)))
-            energy += mass*9.81*(d.xipos[body, 2]-base[2])
-            minimum += mass*9.81*(i*.12+.06)
-            if i:
-                joint = m.joint(f'pole_{i}_joint').id
-                energy += .5*m.jnt_stiffness[joint]*d.qpos[m.jnt_qposadr[joint]]**2
-        return (energy+minimum)/(2*minimum)
-
-    def step(self, action):
-        action = np.asarray(action, dtype=float)
-        if action.shape != self.action_space.shape:
-            raise ValueError(f'Expected {self.action_space.shape[0]} pelvis commands')
-        if not np.isfinite(action).all():
-            raise ValueError('Action must be finite')
-        clipped = np.clip(action, -1, 1)
-        translation, tilt = clipped[:2]
-        self.last_action = float(translation)
-        self.last_pitch_action = float(tilt)
-        # A desired pelvis velocity integrates to a bounded stance target.
-        self.target_x = float(np.clip(self.target_x + .012*translation, -.14, .14))
-        # Anteversion/retroversion: ~17 degree target bound; actual motion is
-        # produced by the force/velocity/activation-limited muscles.
-        self.target_pitch = float(np.clip(self.target_pitch + self.tilt_rate*self.dt*tilt, -.30, .30))
-        self.last_height_action = float(clipped[2])
-        self.target_height = float(np.clip(self.target_height+.5*self.dt*clipped[2], .70, .87))
-        for _ in range(10):
-            self.reflex()
-            mujoco.mj_step(self.model, self.data)
-        mujoco.mj_forward(self.model, self.data)
-        self.steps += 1
-        angle, speed = self.pole_state()
-        # Choose a fixed stance frame at capture. This changes the controller's
-        # position reference only, never qpos, qvel or any applied force.
-        if not self.balance_mode and abs(angle) < .25 and abs(speed) < 2.5 and not self.pole_supported():
-            self.support_origin = float((self.data.site('sole_l').xpos[0]
-                                         +self.data.site('sole_r').xpos[0])/2)
-            self.balance_mode = True
-        elif self.balance_mode and abs(angle) > .7:
-            self.balance_mode = False
-        z = self.data.body('pelvis').xpos[2]
-        pitch = self.data.qpos[self.qids['root_pitch']]
-        upright = abs(angle) < .21 and abs(speed) < 1. and not self.pole_supported()
-        self.hold = self.hold+self.dt if upright else 0.
-        self.best_hold = max(self.best_hold, self.hold)
-        self.upright_time += self.dt*upright
-        healthy = z > .55 and abs(pitch) < .7 and np.isfinite(self.data.qpos).all()
-        energy = self.pole_energy()
-        height = (1+math.cos(angle))/2
-        reward = (2*height*height + 6*upright + .3*(1-abs(1-energy))
-                  - .005*float(np.mean(self.data.act**2)) - .03*pitch*pitch)
-        terminated = not healthy
-        if terminated:
-            reward -= 2
-        return self.observe(), float(reward), terminated, self.steps*self.dt >= self.duration, self.info()
 
     def info(self):
         forces = [0., 0.]

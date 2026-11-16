@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "task": "spin",
+  "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4",
+  "action_names": [
+    "lateral_pelvis_velocity",
+    "vertical_pelvis_velocity"
+  ],
+  "episode_seconds": 20,
+  "target_rotation_rps": 2.0
+}

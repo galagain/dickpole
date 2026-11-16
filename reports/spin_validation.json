@@ -5,27 +5,31 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.8014454363252856,
-    "pelvis_pitch": -0.15960852011078544,
+    "pelvis_height": 0.829948401526393,
+    "pelvis_pitch": -0.14600894094153619,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.03172126570208404,
-    "pelvis_target_height": 0.8129753245437121,
+    "lumbar_angle": 0.029385720429117055,
+    "pelvis_target_height": 0.837892551743668,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      346.5602732243318,
-      417.04998503812203
+      515.8809246719287,
+      346.3350511803416
     ],
     "task": "spin",
-    "spin_angle": -2.485076800523987,
-    "angular_velocity": 10.941800959400465,
-    "signed_turns": 9.604487743233616,
-    "consecutive_turns": 15.954564202803448,
-    "best_consecutive_turns": 15.954564202803448,
-    "completed_turns": 9,
-    "contact_time": 0.04,
-    "pelvis_y": -0.09622251264842752,
-    "pelvis_roll": -0.054438713594840364,
+    "spin_angle": -1.6568957360476624,
+    "angular_velocity": 18.156704027048818,
+    "signed_turns": 44.73629685342013,
+    "consecutive_turns": 44.93310779010999,
+    "best_consecutive_turns": 44.93310779010999,
+    "completed_turns": 44,
+    "contact_time": 0.0,
+    "mean_free_rps": 2.8083192368819105,
+    "fast_time": 16.099999999999746,
+    "peak_rps": 3.845954472948142,
+    "pelvis_y": 0.06491010172053924,
+    "pelvis_roll": 0.05910214888191201,
+    "reward": 343.993291085121,
     "fell": false,
     "success": true,
     "plan": {
@@ -35,15 +39,18 @@
         {
           "profile": 0,
           "success": false,
-          "turns": 0.5263391767638319
+          "metric": 0.7862102779339282,
+          "fell": true
         },
         {
           "profile": 1,
           "success": true,
-          "turns": 15.954564202803448
+          "metric": 2.8083192368819105,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3001,
@@ -51,109 +58,31 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.7942145811392397,
-    "pelvis_pitch": -0.06920273614761568,
+    "pelvis_height": 0.8013172472448836,
+    "pelvis_pitch": -0.1749439718184204,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.002827678908123464,
-    "pelvis_target_height": 0.8114080074208069,
+    "lumbar_angle": 0.028642265790400388,
+    "pelvis_target_height": 0.837892551743668,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      331.8664649539617,
-      325.20196160199725
+      628.3499048457907,
+      425.9793602520218
     ],
     "task": "spin",
-    "spin_angle": 2.47124200444287,
-    "angular_velocity": 13.767273789911293,
-    "signed_turns": 33.39331038058341,
-    "consecutive_turns": 33.782696611648134,
-    "best_consecutive_turns": 33.782696611648134,
-    "completed_turns": 33,
+    "spin_angle": -1.2728947455461295,
+    "angular_velocity": 20.659953952590037,
+    "signed_turns": 44.79741250921064,
+    "consecutive_turns": 44.99242127143129,
+    "best_consecutive_turns": 44.99242127143129,
+    "completed_turns": 44,
     "contact_time": 0.0,
-    "pelvis_y": -0.00616215094296842,
-    "pelvis_roll": 0.0009641266078266053,
-    "fell": false,
-    "success": true,
-    "plan": {
-      "profile": 0,
-      "predicted_success": true,
-      "attempts": [
-        {
-          "profile": 0,
-          "success": true,
-          "turns": 33.782696611648134
-        }
-      ]
-    }
-  },
-  {
-    "seed": 3002,
-    "time": 19.999999999999794,
-    "best_hold": 0.0,
-    "upright_time": 0.0,
-    "hold": 0.0,
-    "pelvis_height": 0.7835804623810867,
-    "pelvis_pitch": -0.07835087248607184,
-    "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.017119801461594628,
-    "pelvis_target_height": 0.81185587312819,
-    "pole_supported": false,
-    "balance_mode": false,
-    "ground_forces": [
-      479.5627893016126,
-      493.5293861277046
-    ],
-    "task": "spin",
-    "spin_angle": -1.6787253941220606,
-    "angular_velocity": 16.119053318919814,
-    "signed_turns": 25.732822555431586,
-    "consecutive_turns": 26.019551423344588,
-    "best_consecutive_turns": 26.019551423344588,
-    "completed_turns": 25,
-    "contact_time": 0.02,
-    "pelvis_y": 0.0033549099668463956,
-    "pelvis_roll": -0.002106660749876027,
-    "fell": false,
-    "success": true,
-    "plan": {
-      "profile": 0,
-      "predicted_success": true,
-      "attempts": [
-        {
-          "profile": 0,
-          "success": true,
-          "turns": 26.019551423344588
-        }
-      ]
-    }
-  },
-  {
-    "seed": 3003,
-    "time": 19.999999999999794,
-    "best_hold": 0.0,
-    "upright_time": 0.0,
-    "hold": 0.0,
-    "pelvis_height": 0.8151987279812153,
-    "pelvis_pitch": -0.05543784901348403,
-    "pelvis_target_pitch": 0.0,
-    "lumbar_angle": -0.0047789899978256094,
-    "pelvis_target_height": 0.83,
-    "pole_supported": false,
-    "balance_mode": false,
-    "ground_forces": [
-      220.00230371190716,
-      238.16899300257947
-    ],
-    "task": "spin",
-    "spin_angle": -0.9449166365601024,
-    "angular_velocity": 15.991516388225739,
-    "signed_turns": 31.849611846481693,
-    "consecutive_turns": 32.21119159877833,
-    "best_consecutive_turns": 32.21119159877833,
-    "completed_turns": 31,
-    "contact_time": 0.0,
-    "pelvis_y": -0.03399750951262538,
-    "pelvis_roll": -0.0021894351934441166,
+    "mean_free_rps": 2.8120263294644916,
+    "fast_time": 16.019999999999747,
+    "peak_rps": 3.7344093263022744,
+    "pelvis_y": 0.04967840446526907,
+    "pelvis_roll": 0.0431197341491868,
+    "reward": 344.4087895352025,
     "fell": false,
     "success": true,
     "plan": {
@@ -163,15 +92,112 @@
         {
           "profile": 0,
           "success": false,
-          "turns": 0.6178812610301406
+          "metric": -2.2311345002661542,
+          "fell": true
         },
         {
           "profile": 1,
           "success": true,
-          "turns": 32.21119159877833
+          "metric": 2.8120263294644916,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+  },
+  {
+    "seed": 3002,
+    "time": 19.999999999999794,
+    "best_hold": 0.0,
+    "upright_time": 0.0,
+    "hold": 0.0,
+    "pelvis_height": 0.7884714909965368,
+    "pelvis_pitch": -0.15616001108300426,
+    "pelvis_target_pitch": 0.0,
+    "lumbar_angle": 0.0037449632163722765,
+    "pelvis_target_height": 0.8296069042808323,
+    "pole_supported": false,
+    "balance_mode": false,
+    "ground_forces": [
+      395.1569239764825,
+      369.9033057023787
+    ],
+    "task": "spin",
+    "spin_angle": -0.1163078879771687,
+    "angular_velocity": 24.61797371550952,
+    "signed_turns": 45.981489024707855,
+    "consecutive_turns": 46.19134779971547,
+    "best_consecutive_turns": 46.19134779971547,
+    "completed_turns": 45,
+    "contact_time": 0.04,
+    "mean_free_rps": 2.8818552791618663,
+    "fast_time": 15.519999999999758,
+    "peak_rps": 4.196319351181307,
+    "pelvis_y": 0.09085349447769958,
+    "pelvis_roll": 0.03186071123886812,
+    "reward": 351.03900870071067,
+    "fell": false,
+    "success": true,
+    "plan": {
+      "profile": 0,
+      "predicted_success": true,
+      "attempts": [
+        {
+          "profile": 0,
+          "success": true,
+          "metric": 2.8818552791618663,
+          "fell": false
+        }
+      ]
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+  },
+  {
+    "seed": 3003,
+    "time": 19.999999999999794,
+    "best_hold": 0.0,
+    "upright_time": 0.0,
+    "hold": 0.0,
+    "pelvis_height": 0.8103849532511499,
+    "pelvis_pitch": -0.11335155097893913,
+    "pelvis_target_pitch": 0.0,
+    "lumbar_angle": 0.011888751150505784,
+    "pelvis_target_height": 0.8296069042808323,
+    "pole_supported": false,
+    "balance_mode": false,
+    "ground_forces": [
+      340.75471928450406,
+      319.6241516869114
+    ],
+    "task": "spin",
+    "spin_angle": -1.6823562354416282,
+    "angular_velocity": 18.446555948935252,
+    "signed_turns": 45.73224468908799,
+    "consecutive_turns": 45.99097114457106,
+    "best_consecutive_turns": 45.99097114457106,
+    "completed_turns": 45,
+    "contact_time": 0.04,
+    "mean_free_rps": 2.8668735000140595,
+    "fast_time": 15.41999999999976,
+    "peak_rps": 4.104272789567301,
+    "pelvis_y": 0.025861331447941574,
+    "pelvis_roll": 0.0037772887138571125,
+    "reward": 348.76355452743576,
+    "fell": false,
+    "success": true,
+    "plan": {
+      "profile": 0,
+      "predicted_success": true,
+      "attempts": [
+        {
+          "profile": 0,
+          "success": true,
+          "metric": 2.8668735000140595,
+          "fell": false
+        }
+      ]
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3004,
@@ -179,40 +205,52 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.7985997637543713,
-    "pelvis_pitch": -0.04304819520629323,
+    "pelvis_height": 0.8024968949095821,
+    "pelvis_pitch": -0.10523331749691732,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": -0.008525004788541067,
-    "pelvis_target_height": 0.81185587312819,
+    "lumbar_angle": 0.03066489050844008,
+    "pelvis_target_height": 0.8089522219247056,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      177.17165307713543,
-      186.66939487808804
+      329.51844030217677,
+      299.9278488429132
     ],
     "task": "spin",
-    "spin_angle": -0.18862223891055122,
-    "angular_velocity": 18.665491924346547,
-    "signed_turns": 16.969979838300326,
-    "consecutive_turns": 17.27051546012557,
-    "best_consecutive_turns": 17.27051546012557,
-    "completed_turns": 16,
-    "contact_time": 0.08,
-    "pelvis_y": 0.03799866409451972,
-    "pelvis_roll": 0.0011882785812760942,
+    "spin_angle": -2.693044444029344,
+    "angular_velocity": 13.127933263665856,
+    "signed_turns": 44.571388664766566,
+    "consecutive_turns": 44.769224910502324,
+    "best_consecutive_turns": 44.769224910502324,
+    "completed_turns": 44,
+    "contact_time": 0.0,
+    "mean_free_rps": 2.798076556906431,
+    "fast_time": 16.139999999999745,
+    "peak_rps": 3.8423782308363004,
+    "pelvis_y": 0.12703127266323763,
+    "pelvis_roll": 0.0028616552145006133,
+    "reward": 342.74315442060384,
     "fell": false,
     "success": true,
     "plan": {
-      "profile": 0,
+      "profile": 1,
       "predicted_success": true,
       "attempts": [
         {
           "profile": 0,
+          "success": false,
+          "metric": -1.8690751768656328,
+          "fell": true
+        },
+        {
+          "profile": 1,
           "success": true,
-          "turns": 17.27051546012557
+          "metric": 2.798076556906431,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3005,
@@ -220,40 +258,52 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.8360406072460149,
-    "pelvis_pitch": -0.019202314986049424,
+    "pelvis_height": 0.8243337515864805,
+    "pelvis_pitch": -0.22124889813374102,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.007710395755888779,
-    "pelvis_target_height": 0.845051467250736,
+    "lumbar_angle": 0.0329525587093281,
+    "pelvis_target_height": 0.837892551743668,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      355.02308310874065,
-      322.6995956289271
+      515.1964062554342,
+      326.50113184883566
     ],
     "task": "spin",
-    "spin_angle": 0.17236283920190518,
-    "angular_velocity": 3.1685727404234254,
-    "signed_turns": 3.0274323978643367,
-    "consecutive_turns": 0.10731836676306435,
-    "best_consecutive_turns": 6.276449770426251,
-    "completed_turns": 3,
-    "contact_time": 0.12000000000000001,
-    "pelvis_y": 0.011916348968912931,
-    "pelvis_roll": 0.04649134513287059,
+    "spin_angle": 0.40320297709122954,
+    "angular_velocity": 19.814444771253942,
+    "signed_turns": 44.06417174687344,
+    "consecutive_turns": 44.26055109018977,
+    "best_consecutive_turns": 44.26055109018977,
+    "completed_turns": 44,
+    "contact_time": 0.0,
+    "mean_free_rps": 2.7661630490738855,
+    "fast_time": 15.799999999999752,
+    "peak_rps": 3.7731872217103635,
+    "pelvis_y": 0.004486649705522343,
+    "pelvis_roll": 0.07616222880591494,
+    "reward": 338.6677936137239,
     "fell": false,
     "success": true,
     "plan": {
-      "profile": 0,
+      "profile": 1,
       "predicted_success": true,
       "attempts": [
         {
           "profile": 0,
+          "success": false,
+          "metric": -1.9452798430078895,
+          "fell": true
+        },
+        {
+          "profile": 1,
           "success": true,
-          "turns": 6.276449770426251
+          "metric": 2.7661630490738855,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3006,
@@ -261,27 +311,31 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.7859885045493878,
-    "pelvis_pitch": -0.07297837241106407,
+    "pelvis_height": 0.824642582263733,
+    "pelvis_pitch": -0.07829940388206194,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.007296861544424944,
-    "pelvis_target_height": 0.81185587312819,
+    "lumbar_angle": 0.023324606939450158,
+    "pelvis_target_height": 0.8296069042808323,
     "pole_supported": false,
-    "balance_mode": false,
+    "balance_mode": true,
     "ground_forces": [
-      436.2252011043009,
-      442.3305827317912
+      302.65089739097596,
+      250.64572636894832
     ],
     "task": "spin",
-    "spin_angle": -1.3686810481037242,
-    "angular_velocity": 16.891465130112948,
-    "signed_turns": 28.782167645678097,
-    "consecutive_turns": 29.14381125930922,
-    "best_consecutive_turns": 29.14381125930922,
-    "completed_turns": 28,
-    "contact_time": 0.02,
-    "pelvis_y": -0.045880925637611335,
-    "pelvis_roll": -0.0032426326477533506,
+    "spin_angle": 3.1387187226075386,
+    "angular_velocity": 19.144825294669165,
+    "signed_turns": 46.49954259967807,
+    "consecutive_turns": 46.7122206181819,
+    "best_consecutive_turns": 46.7122206181819,
+    "completed_turns": 46,
+    "contact_time": 0.04,
+    "mean_free_rps": 2.913266627753118,
+    "fast_time": 15.599999999999756,
+    "peak_rps": 4.056468226024029,
+    "pelvis_y": 0.02001291583015188,
+    "pelvis_roll": 0.044435117458371254,
+    "reward": 355.39950006062963,
     "fell": false,
     "success": true,
     "plan": {
@@ -291,10 +345,12 @@
         {
           "profile": 0,
           "success": true,
-          "turns": 29.14381125930922
+          "metric": 2.913266627753118,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3007,
@@ -302,50 +358,52 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.7994972654188546,
-    "pelvis_pitch": -0.06546445548713899,
+    "pelvis_height": 0.8143404176846469,
+    "pelvis_pitch": -0.1691644433958701,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.010591220629128761,
-    "pelvis_target_height": 0.8184035869423572,
+    "lumbar_angle": 0.01992230195851874,
+    "pelvis_target_height": 0.8254329309194558,
     "pole_supported": false,
-    "balance_mode": false,
+    "balance_mode": true,
     "ground_forces": [
-      377.7552737358137,
-      374.0217568222071
+      216.36813266093012,
+      228.29198077770684
     ],
     "task": "spin",
-    "spin_angle": 2.7417175392583157,
-    "angular_velocity": 14.271510754452192,
-    "signed_turns": 7.436357898934709,
-    "consecutive_turns": 7.7195750882959535,
-    "best_consecutive_turns": 7.7195750882959535,
-    "completed_turns": 7,
-    "contact_time": 0.02,
-    "pelvis_y": 0.09885105476966463,
-    "pelvis_roll": 0.0038317188566843532,
+    "spin_angle": 3.052644679906127,
+    "angular_velocity": 13.358236650630118,
+    "signed_turns": 44.48584349031024,
+    "consecutive_turns": 44.67945530398069,
+    "best_consecutive_turns": 44.67945530398069,
+    "completed_turns": 44,
+    "contact_time": 0.0,
+    "mean_free_rps": 2.792465956498829,
+    "fast_time": 15.959999999999749,
+    "peak_rps": 3.989806622797394,
+    "pelvis_y": 0.13118523272035507,
+    "pelvis_roll": -0.0005864242912922347,
+    "reward": 341.9743569390405,
     "fell": false,
     "success": true,
     "plan": {
-      "profile": 2,
+      "profile": 1,
       "predicted_success": true,
       "attempts": [
         {
           "profile": 0,
           "success": false,
-          "turns": 0.7318893639987616
+          "metric": -1.9300793897356703,
+          "fell": true
         },
         {
           "profile": 1,
-          "success": false,
-          "turns": 0.7555193100504695
-        },
-        {
-          "profile": 2,
           "success": true,
-          "turns": 7.7195750882959535
+          "metric": 2.792465956498829,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3008,
@@ -353,40 +411,52 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.8017951702059247,
-    "pelvis_pitch": -0.021349082950590056,
+    "pelvis_height": 0.8247263339280008,
+    "pelvis_pitch": -0.17939810718439775,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": -0.004120646906608207,
-    "pelvis_target_height": 0.81185587312819,
+    "lumbar_angle": 0.03539489091100629,
+    "pelvis_target_height": 0.837892551743668,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      207.60200879872252,
-      200.6093607505696
+      549.6849207326995,
+      559.5915053629608
     ],
     "task": "spin",
-    "spin_angle": 0.056592823095455914,
-    "angular_velocity": 18.73183571513485,
-    "signed_turns": 33.00900702753917,
-    "consecutive_turns": 33.31058415051329,
-    "best_consecutive_turns": 33.31058415051329,
-    "completed_turns": 33,
-    "contact_time": 0.04,
-    "pelvis_y": -0.04927397170808992,
-    "pelvis_roll": -0.00013140012865198785,
+    "spin_angle": -2.128693045062907,
+    "angular_velocity": 17.50255989310124,
+    "signed_turns": 44.6612079795529,
+    "consecutive_turns": 44.85781238249954,
+    "best_consecutive_turns": 44.85781238249954,
+    "completed_turns": 44,
+    "contact_time": 0.0,
+    "mean_free_rps": 2.803613273906257,
+    "fast_time": 16.019999999999747,
+    "peak_rps": 3.769632841850273,
+    "pelvis_y": 0.14431840513700794,
+    "pelvis_roll": 0.06694398793323571,
+    "reward": 343.4699916008428,
     "fell": false,
     "success": true,
     "plan": {
-      "profile": 0,
+      "profile": 1,
       "predicted_success": true,
       "attempts": [
         {
           "profile": 0,
+          "success": false,
+          "metric": -2.335661635237581,
+          "fell": true
+        },
+        {
+          "profile": 1,
           "success": true,
-          "turns": 33.31058415051329
+          "metric": 2.803613273906257,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   },
   {
     "seed": 3009,
@@ -394,27 +464,31 @@
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.7925886250704368,
-    "pelvis_pitch": -0.1175266606900062,
+    "pelvis_height": 0.8211958376204038,
+    "pelvis_pitch": -0.026253177054317473,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.013282758544646375,
-    "pelvis_target_height": 0.81185587312819,
+    "lumbar_angle": 0.012878129233806176,
+    "pelvis_target_height": 0.8296069042808323,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      271.639386044379,
-      375.8778620349135
+      259.66139217693313,
+      316.1023835864163
     ],
     "task": "spin",
-    "spin_angle": 2.516433847601043,
-    "angular_velocity": 13.831848978855676,
-    "signed_turns": 30.400502885809463,
-    "consecutive_turns": 30.687468361768797,
-    "best_consecutive_turns": 30.687468361768797,
-    "completed_turns": 30,
-    "contact_time": 0.0,
-    "pelvis_y": -0.01924779096346913,
-    "pelvis_roll": -0.05090449578490409,
+    "spin_angle": 1.1759604176908276,
+    "angular_velocity": 20.327910715313514,
+    "signed_turns": 47.187159913355906,
+    "consecutive_turns": 47.51430735162722,
+    "best_consecutive_turns": 47.51430735162722,
+    "completed_turns": 47,
+    "contact_time": 0.02,
+    "mean_free_rps": 2.958452586278882,
+    "fast_time": 15.739999999999753,
+    "peak_rps": 4.117027558145925,
+    "pelvis_y": -0.06650091219679947,
+    "pelvis_roll": 0.004127293451176485,
+    "reward": 360.4448806254405,
     "fell": false,
     "success": true,
     "plan": {
@@ -424,9 +498,11 @@
         {
           "profile": 0,
           "success": true,
-          "turns": 30.687468361768797
+          "metric": 2.958452586278882,
+          "fell": false
         }
       ]
-    }
+    },
+    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
   }
 ]

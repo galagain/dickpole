@@ -1,5 +1,4 @@
-"""Final MuJoCo environment and hybrid reinforcement-learning controller."""
-from .environment import MuscleHumanoid
-from .rl_env import ResidualHumanoid
+"""One muscle-driven 3D humanoid, two learned control goals."""
+from .humanoid import HumanoidEnv
 
-__all__ = ["MuscleHumanoid", "ResidualHumanoid"]
+__all__ = ['HumanoidEnv']

@@ -1,0 +1,23 @@
+{
+  "task": "balance",
+  "algorithm": "CEM episodic policy search",
+  "steps": 180162,
+  "seed": 7,
+  "population": 20,
+  "rounds": 17,
+  "parameter_names": [
+    "energy_target",
+    "pumping_gain",
+    "position_damping",
+    "velocity_damping",
+    "height_pumping",
+    "crouch_height",
+    "capture_angle",
+    "capture_speed",
+    "feedback_gain"
+  ],
+  "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4",
+  "library_selected_after_steps": 80005,
+  "parameter_profiles": 32,
+  "initializer": "calibrated energy-shaping controller"
+}

@@ -5,30 +5,22 @@ import time
 import mujoco
 import numpy as np
 
-from .environment import MuscleHumanoid
+from .humanoid import HumanoidEnv
 
 
 def manual(seed=3000, task='balance'):
     import mujoco.viewer
-    if task == 'spin':
-        from .spin import SpinHumanoid
-        env = SpinHumanoid(duration=3600.)
-    else:
-        env = MuscleHumanoid(duration=3600.)
+    env = HumanoidEnv(task=task, duration=3600.)
     env.reset(seed=seed)
     events = SimpleQueue()
     command = np.zeros(env.action_space.shape)
     deadline = 0.
     ended = paused = False
     # GLFW: arrows translate/raise/lower; A/D tilt the pelvis.
-    bindings = {263: (0, -.5), 262: (0, .5), 265: (2, .5),
-                264: (2, -.5), 65: (1, -.2), 68: (1, .2)}
-    if task == 'spin':
-        bindings = {263: (0, -.5), 262: (0, .5), 265: (1, .5), 264: (1, -.5)}
-    print('←/→ translation | ↑/↓ height | Space pause | R reset'
-          + (' | A/D tilt' if task == 'balance' else ''), flush=True)
+    bindings = {263: (0, -.5), 262: (0, .5), 265: (1, .5), 264: (1, -.5)}
+    print('←/→ lateral motion | ↑/↓ height | Space pause | R reset', flush=True)
     with mujoco.viewer.launch_passive(env.model, env.data, key_callback=events.put) as viewer:
-        viewer.cam.azimuth = 10 if task == 'spin' else 110
+        viewer.cam.azimuth = 12
         viewer.cam.elevation = -10
         viewer.cam.distance = 3.
         while viewer.is_running():
@@ -55,3 +47,26 @@ def manual(seed=3000, task='balance'):
             viewer.cam.lookat[:] = [*env.data.body('pelvis').xpos[:2], .85]
             viewer.sync()
             time.sleep(max(0, env.dt-(time.monotonic()-start)))
+
+
+def play(policy, seed=3000, plan=True):
+    import mujoco.viewer
+    env = HumanoidEnv(task=policy.task, direction=policy.direction)
+    env.reset(seed=seed)
+    if plan:
+        print('Selecting a controller in independent simulations...', flush=True)
+        policy.select(env)
+    with mujoco.viewer.launch_passive(env.model, env.data) as viewer:
+        viewer.cam.azimuth, viewer.cam.elevation, viewer.cam.distance = 12, -10, 2.8
+        while viewer.is_running():
+            start = time.monotonic()
+            _, _, done, timeout, info = env.step(policy.predict(env))
+            viewer.cam.lookat[:] = [*env.data.body('pelvis').xpos[:2], .85]
+            viewer.sync()
+            if done or timeout:
+                print(f"Hold: {info['best_hold']:.2f}s | speed: {info['mean_free_rps']:.2f} rps | fell: {done}", flush=True)
+                env.reset(seed=seed)
+                if plan:
+                    policy.select(env)
+            time.sleep(max(0.,env.dt-(time.monotonic()-start)))
+    env.close()
