@@ -1,0 +1,21 @@
+{
+  "task": "stand",
+  "aliases": [
+    "balance"
+  ],
+  "source_commit": "cd4816f",
+  "physics": "original sagittal muscle-driven humanoid",
+  "physics_sha256": "3f8163aadc061a4aace84ae212ded462b7b1a2a5abf3aa357aa2a51d1d7e9db8",
+  "muscles": 14,
+  "mechanical_dofs": 19,
+  "policy_observation_size": 67,
+  "policy_action_size": 3,
+  "controller": "original residual PPO + calibrated LQR + simulation-based head selection",
+  "files": {
+    "controller.npz": "636a1f76d82e0d5a160a15c04edd94af12daf7c3c304936d6ed0e4d6a7aed594",
+    "calibration.json": "5465a719c119a5b700f8d78dd60eddd1ca31b17c3a27bf1e6ae9565d7d5091d4",
+    "pretrained/heads.npz": "c8fba8a3a27264d331855ae7e06d392afbb3193b70e47d587d672d20605c3771",
+    "pretrained/library.json": "a99f46f2d9e46960bb06bafacb4bed7b28bd53b2151c289e9e6f5289d2489d6c",
+    "pretrained/policy.zip": "f9b5ac4a52bffde4d17fcb829fc47233c967198ca2871d86efac4efe6e9479d7"
+  }
+}

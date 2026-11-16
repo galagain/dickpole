@@ -1,4 +1,4 @@
-"""Train and run two goals on the same muscle-driven 3D humanoid."""
+"""Run the original stand controller or the current 3D spin environment."""
 import argparse
 import json
 from pathlib import Path
@@ -13,7 +13,7 @@ def main():
                             ('train','Learn a task-specific controller'),('evaluate','Evaluate real episodes'),
                             ('video','Render ten seconds without overlays')]:
         command = commands.add_parser(name, help=help_text)
-        command.add_argument('--task', choices=['balance','spin'], default='balance')
+        command.add_argument('--task', choices=['stand','balance','spin'], default='balance')
         command.add_argument('--seed', type=int, default=None)
         if name in ('play','evaluate','video'):
             command.add_argument('--model', type=Path)
@@ -21,15 +21,21 @@ def main():
         if name in ('train','evaluate','video'):
             command.add_argument('--output', type=Path)
         if name == 'train':
-            command.add_argument('--steps', type=int, default=262144)
+            command.add_argument('--steps', type=int)
+            command.add_argument('--learning-rate',type=float)
             command.add_argument('--population', type=int, default=16)
+            command.add_argument('--episodes-per-candidate', type=int, default=3)
             command.add_argument('--rounds', type=int)
             command.add_argument('--pretrained', nargs='?', const=Path('__included__'), type=Path)
         if name == 'evaluate':
             command.add_argument('--episodes', type=int, default=10)
     args = parser.parse_args()
     if args.seed is None:
-        args.seed = 3000 if args.command == 'evaluate' else 7
+        args.seed = (7 if args.command=='train' else 3000) if args.task in ('stand','balance') else (3000 if args.command=='evaluate' else 7)
+    if args.task in ('stand','balance'):
+        from dickpole.stand.cli import run
+        run(args,parser)
+        return
     included = ROOT/'models'/args.task
     if hasattr(args, 'model'):
         args.model = args.model or included
@@ -37,16 +43,18 @@ def main():
         from dickpole.viewer import manual
         manual(args.seed, args.task)
     elif args.command == 'train':
-        if args.steps < 1 or args.population < 4 or (args.rounds is not None and args.rounds < 1):
-            parser.error('Positive steps/rounds and population >= 4 required')
-        from dickpole.learning import train
+        if args.steps is None:
+            args.steps=262144
+        if args.episodes_per_candidate < 1 or args.steps < 1 or args.population < 4 or (args.rounds is not None and args.rounds < 1):
+            parser.error('Positive steps/rounds/episodes and population >= 4 required')
         resume = included if args.pretrained == Path('__included__') else args.pretrained
         output = args.output or ROOT/'outputs'/args.task
-        train(args.task, output, args.steps, args.population, args.seed, resume, args.rounds)
+        from dickpole.learning import train
+        train(args.task, output, args.steps, args.population, args.seed, resume, args.rounds, args.episodes_per_candidate)
         print(f'Checkpoint ready: {output}')
     else:
-        from dickpole.policy import TaskPolicy
-        policy = TaskPolicy(args.model, args.task)
+        from dickpole.policy import load_policy
+        policy = load_policy(args.model, args.task)
         if args.command == 'play':
             from dickpole.viewer import play
             play(policy, args.seed, plan=not args.no_plan)

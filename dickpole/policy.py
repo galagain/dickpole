@@ -116,3 +116,7 @@ def evaluate(policy, episodes=10, seed=3000, plan=True):
               f'hold={info["best_hold"]:.2f}s free_rps={info["mean_free_rps"]:.2f}', flush=True)
         env.close()
     return records
+
+
+def load_policy(folder,task=None):
+    return TaskPolicy(folder,task)

@@ -1,10 +1,22 @@
 {
-  "task": "balance",
-  "algorithm": "shared CEM, undiscounted environment return",
-  "steps": 100640,
-  "seed": 7,
-  "population": 20,
-  "rounds": 4,
+  "task": "spin",
+  "algorithm": "multi-seed robust CEM",
+  "steps": 100099,
+  "training_steps": 82564,
+  "validation_steps": 17535,
+  "training_seeds": [
+    7,
+    8,
+    9
+  ],
+  "validation_seeds": [
+    1000,
+    1001,
+    1002,
+    1003
+  ],
+  "population": 12,
+  "rounds": 3,
   "parameter_names": [
     "lateral_radius",
     "vertical_radius",
