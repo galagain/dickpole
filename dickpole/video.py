@@ -10,14 +10,20 @@ from .policy import PolicyLibrary
 from .rl_env import ResidualHumanoid
 
 
-def render_presentation(model, output, seed=3000):
+def render_presentation(model, output, seed=3000, task='balance'):
     executable = shutil.which('ffmpeg')
     if not executable:
         raise RuntimeError('FFmpeg is required to export the video')
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    library = PolicyLibrary(model)
-    env = ResidualHumanoid(duration=40.)
+    if task == 'spin':
+        from .spin import SpinHumanoid
+        from .spin_learning import SpinPolicy
+        library = SpinPolicy(model)
+        env = SpinHumanoid(duration=20., direction=library.direction)
+    else:
+        library = PolicyLibrary(model)
+        env = ResidualHumanoid(duration=40.)
     obs, _ = env.reset(seed=seed)
     library.select(env)
     sim = env.unwrapped
@@ -26,6 +32,8 @@ def render_presentation(model, output, seed=3000):
     renderer = mujoco.Renderer(sim.model, height=height, width=width)
     camera = mujoco.MjvCamera()
     camera.azimuth, camera.elevation, camera.distance = 110, -12, 2.8
+    if task == 'spin':
+        camera.azimuth = 10
     command = [executable, '-y', '-loglevel', 'error', '-f', 'rawvideo',
                '-pixel_format', 'rgb24', '-video_size', f'{width}x{height}',
                '-framerate', str(fps), '-i', 'pipe:0', '-an', '-c:v', 'libx264',
@@ -36,10 +44,11 @@ def render_presentation(model, output, seed=3000):
         try:
             for frame in range(10*fps):
                 while sim.data.time+1e-8 < frame/fps:
-                    obs, _, done, _, _ = env.step(library.predict(obs))
+                    action = library.predict(env) if task == 'spin' else library.predict(obs)
+                    obs, _, done, _, _ = env.step(action)
                     if done:
                         raise RuntimeError('The recorded episode fell')
-                camera.lookat[:] = [sim.data.body('pelvis').xpos[0], 0, .85]
+                camera.lookat[:] = [*sim.data.body('pelvis').xpos[:2], .85]
                 renderer.update_scene(sim.data, camera=camera)
                 encoder.stdin.write(renderer.render().tobytes())
         finally:

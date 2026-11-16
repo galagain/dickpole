@@ -8,20 +8,27 @@ import numpy as np
 from .environment import MuscleHumanoid
 
 
-def manual(seed=3000):
+def manual(seed=3000, task='balance'):
     import mujoco.viewer
-    env = MuscleHumanoid(duration=3600.)
+    if task == 'spin':
+        from .spin import SpinHumanoid
+        env = SpinHumanoid(duration=3600.)
+    else:
+        env = MuscleHumanoid(duration=3600.)
     env.reset(seed=seed)
     events = SimpleQueue()
-    command = np.zeros(3)
+    command = np.zeros(env.action_space.shape)
     deadline = 0.
     ended = paused = False
     # GLFW: arrows translate/raise/lower; A/D tilt the pelvis.
     bindings = {263: (0, -.5), 262: (0, .5), 265: (2, .5),
                 264: (2, -.5), 65: (1, -.2), 68: (1, .2)}
-    print('←/→ translation | ↑/↓ hauteur | A/D inclinaison | Espace pause | R reset', flush=True)
+    if task == 'spin':
+        bindings = {263: (0, -.5), 262: (0, .5), 265: (1, .5), 264: (1, -.5)}
+    print('←/→ translation | ↑/↓ height | Space pause | R reset'
+          + (' | A/D tilt' if task == 'balance' else ''), flush=True)
     with mujoco.viewer.launch_passive(env.model, env.data, key_callback=events.put) as viewer:
-        viewer.cam.azimuth = 110
+        viewer.cam.azimuth = 10 if task == 'spin' else 110
         viewer.cam.elevation = -10
         viewer.cam.distance = 3.
         while viewer.is_running():
@@ -45,6 +52,6 @@ def manual(seed=3000):
                 _, _, ended, _, _ = env.step(command)
                 if ended:
                     print('Chute : R pour recommencer', flush=True)
-            viewer.cam.lookat[:] = [env.data.body('pelvis').xpos[0], 0, .85]
+            viewer.cam.lookat[:] = [*env.data.body('pelvis').xpos[:2], .85]
             viewer.sync()
             time.sleep(max(0, env.dt-(time.monotonic()-start)))

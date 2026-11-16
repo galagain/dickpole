@@ -1,0 +1,1252 @@
+{
+  "task": "spin",
+  "algorithm": "CEM phase-feedback policy search",
+  "seed": 7,
+  "selection_steps": 40557,
+  "profiles": 24,
+  "direction": 1,
+  "parameter_names": [
+    "lateral_radius",
+    "vertical_radius",
+    "frequency",
+    "locked_phase",
+    "phase_feedback",
+    "height_center",
+    "vertical_phase",
+    "speed_cap"
+  ],
+  "fitness_priority": [
+    "survives with three free consecutive turns",
+    "best free rotation streak minus fall cost",
+    "signed turns",
+    "episode reward"
+  ],
+  "selected_profiles": [
+    {
+      "steps": 2000,
+      "round": 0,
+      "parameters": [
+        0.048002466110311344,
+        0.03390901116571857,
+        1.167158599625699,
+        1.728775841948237,
+        1.0,
+        0.81185587312819,
+        -0.05973325186057643,
+        14.259735381989435
+      ],
+      "score": [
+        1.0,
+        35.34909589151836,
+        35.061113092415695,
+        547.4924576090403
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7989982769513473,
+        "pelvis_pitch": -0.027542387124963985,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.006274783429298163,
+        "pelvis_target_height": 0.81185587312819,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          247.48873191580668,
+          255.87332080452757
+        ],
+        "task": "spin",
+        "spin_angle": 0.3839848843426083,
+        "angular_velocity": 18.51676262611557,
+        "signed_turns": 35.061113092415695,
+        "consecutive_turns": 35.34909589151836,
+        "best_consecutive_turns": 35.34909589151836,
+        "completed_turns": 35,
+        "contact_time": 0.02,
+        "pelvis_y": 0.04443955987702951,
+        "pelvis_roll": 0.0012622513719282781,
+        "fell": false,
+        "reward": 547.4924576090403,
+        "success": true
+      }
+    },
+    {
+      "steps": 1000,
+      "round": 0,
+      "parameters": [
+        0.06,
+        0.045,
+        1.0,
+        1.0,
+        1.0,
+        0.83,
+        0.0,
+        12.0
+      ],
+      "score": [
+        1.0,
+        32.38369872707883,
+        32.00758401714908,
+        502.8503020267383
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.8144943159907935,
+        "pelvis_pitch": -0.10694902823092134,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.014731446826551064,
+        "pelvis_target_height": 0.83,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          277.79528069265916,
+          283.73276523867077
+        ],
+        "task": "spin",
+        "spin_angle": 0.047651785120471114,
+        "angular_velocity": 16.968352671101947,
+        "signed_turns": 32.00758401714908,
+        "consecutive_turns": 32.38369872707883,
+        "best_consecutive_turns": 32.38369872707883,
+        "completed_turns": 32,
+        "contact_time": 0.0,
+        "pelvis_y": -0.036467468248776745,
+        "pelvis_roll": -0.042966536218682655,
+        "fell": false,
+        "reward": 502.8503020267383,
+        "success": true
+      }
+    },
+    {
+      "steps": 23042,
+      "round": 1,
+      "parameters": [
+        0.05305830567697965,
+        0.044114889944574895,
+        1.2958167363331652,
+        2.269877399238397,
+        1.0,
+        0.8184035869423572,
+        -1.8376382142081586,
+        14.819780973731246
+      ],
+      "score": [
+        1.0,
+        8.575160310199918,
+        9.176069785821785,
+        130.0863995414132
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.8112013615807478,
+        "pelvis_pitch": -0.08337820047295158,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.020968186804655266,
+        "pelvis_target_height": 0.8484035869423572,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          474.143442680424,
+          515.3020186480048
+        ],
+        "task": "spin",
+        "spin_angle": 1.1062790913136928,
+        "angular_velocity": 8.535653854076818,
+        "signed_turns": 9.176069785821785,
+        "consecutive_turns": 8.575160310199918,
+        "best_consecutive_turns": 8.575160310199918,
+        "completed_turns": 9,
+        "contact_time": 0.0,
+        "pelvis_y": 0.15905168277885084,
+        "pelvis_roll": -0.008992802782424094,
+        "fell": false,
+        "reward": 130.0863995414132,
+        "success": true
+      }
+    },
+    {
+      "steps": 23873,
+      "round": 1,
+      "parameters": [
+        0.07664262609680463,
+        0.04181680812763894,
+        1.1492520430940045,
+        2.4441761284299774,
+        1.0,
+        0.843981681161848,
+        -0.38137927078117695,
+        16.113557123120813
+      ],
+      "score": [
+        0.0,
+        25.54939956987692,
+        30.255034398487375,
+        464.5300595251343
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 16.620000000001667,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.6128695205562766,
+        "pelvis_pitch": -0.13147938948947036,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.023971515752661026,
+        "pelvis_target_height": 0.843981681161848,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          0.0,
+          0.0
+        ],
+        "task": "spin",
+        "spin_angle": 1.6024283854012609,
+        "angular_velocity": 20.183619056041742,
+        "signed_turns": 30.255034398487375,
+        "consecutive_turns": 30.54939956987692,
+        "best_consecutive_turns": 30.54939956987692,
+        "completed_turns": 30,
+        "contact_time": 0.0,
+        "pelvis_y": 0.5994693997036359,
+        "pelvis_roll": -0.6064101317661926,
+        "fell": true,
+        "reward": 464.5300595251343,
+        "success": false
+      }
+    },
+    {
+      "steps": 35557,
+      "round": 2,
+      "parameters": [
+        0.05724500036636905,
+        0.03890395376870979,
+        1.0841304018731885,
+        1.6050992092922103,
+        1.0,
+        0.8382939304090187,
+        -0.3532881092942013,
+        11.516533964230486
+      ],
+      "score": [
+        0.0,
+        7.926042860413785,
+        12.466703042848907,
+        190.37169023169864
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 13.300000000001111,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.625507882274118,
+        "pelvis_pitch": -0.4600791693090527,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.08975804812361202,
+        "pelvis_target_height": 0.8174576693460204,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          200.9895240784197,
+          0.0
+        ],
+        "task": "spin",
+        "spin_angle": 2.9323817016442573,
+        "angular_velocity": 9.278173147945585,
+        "signed_turns": 12.466703042848907,
+        "consecutive_turns": 12.926042860413785,
+        "best_consecutive_turns": 12.926042860413785,
+        "completed_turns": 12,
+        "contact_time": 0.0,
+        "pelvis_y": -0.6539349049233966,
+        "pelvis_roll": 0.6131723296326549,
+        "fell": true,
+        "reward": 190.37169023169864,
+        "success": false
+      }
+    },
+    {
+      "steps": 11193,
+      "round": 0,
+      "parameters": [
+        0.08,
+        0.05667395698578331,
+        0.9917609920603606,
+        2.3648575931220863,
+        0.8895423956932265,
+        0.85,
+        -0.011026093090086508,
+        13.895992651086345
+      ],
+      "score": [
+        0.0,
+        1.9011068221209309,
+        6.621818384990437,
+        96.78478959758942
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 11.44000000000049,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.537222571999314,
+        "pelvis_pitch": -0.1328134105022584,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.02060436406207725,
+        "pelvis_target_height": 0.8485059391407432,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          0.0,
+          0.0
+        ],
+        "task": "spin",
+        "spin_angle": -2.3761851668735345,
+        "angular_velocity": 4.509272100226019,
+        "signed_turns": 6.621818384990437,
+        "consecutive_turns": 6.901106822120931,
+        "best_consecutive_turns": 6.901106822120931,
+        "completed_turns": 6,
+        "contact_time": 0.0,
+        "pelvis_y": -0.9779771174828528,
+        "pelvis_roll": 0.6438590421736373,
+        "fell": true,
+        "reward": 96.78478959758942,
+        "success": false
+      }
+    },
+    {
+      "steps": 24873,
+      "round": 1,
+      "parameters": [
+        0.029953763621045775,
+        0.055955825899760996,
+        1.1381777218092024,
+        2.6033541635601827,
+        1.0,
+        0.85,
+        -1.4653925218823045,
+        8.783377859566427
+      ],
+      "score": [
+        0.0,
+        0.8510090353603871,
+        -1.2770517287477223,
+        -17.110110331347997
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.8955289978477047,
+        "pelvis_pitch": -0.046742269057879246,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.06373919280064838,
+        "pelvis_target_height": 0.8477586918988249,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          0.0,
+          0.0
+        ],
+        "task": "spin",
+        "spin_angle": -1.7407673513963924,
+        "angular_velocity": -13.047744045417716,
+        "signed_turns": -1.2770517287477223,
+        "consecutive_turns": 0.0,
+        "best_consecutive_turns": 0.8510090353603871,
+        "completed_turns": 0,
+        "contact_time": 0.0,
+        "pelvis_y": -0.010487963190540956,
+        "pelvis_roll": 0.01701290325724135,
+        "fell": false,
+        "reward": -17.110110331347997,
+        "success": false
+      }
+    },
+    {
+      "steps": 18042,
+      "round": 1,
+      "parameters": [
+        0.04304497231532371,
+        0.025779502382347975,
+        1.3144220654547314,
+        0.8286164309597237,
+        1.0,
+        0.8283405219467668,
+        -0.7567597075435266,
+        11.899704807184117
+      ],
+      "score": [
+        0.0,
+        0.7727200599501778,
+        0.39362295975142897,
+        -2.010513896325529
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.8454965750266487,
+        "pelvis_pitch": -0.07512793240042394,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.01767239259362657,
+        "pelvis_target_height": 0.8452050980528105,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          279.1917994070529,
+          87.99629406554743
+        ],
+        "task": "spin",
+        "spin_angle": 2.47320599727872,
+        "angular_velocity": 5.419166586018656,
+        "signed_turns": 0.39362295975142897,
+        "consecutive_turns": 0.7727200599501778,
+        "best_consecutive_turns": 0.7727200599501778,
+        "completed_turns": 0,
+        "contact_time": 0.0,
+        "pelvis_y": -0.14162107460852394,
+        "pelvis_roll": 0.04739859663122138,
+        "fell": false,
+        "reward": -2.010513896325529,
+        "success": false
+      }
+    },
+    {
+      "steps": 14193,
+      "round": 0,
+      "parameters": [
+        0.03480415159320384,
+        0.04358463392974183,
+        1.0120416371057281,
+        -1.1532947422693816,
+        1.0,
+        0.8132698486950574,
+        1.9849944584544081,
+        12.626424215966486
+      ],
+      "score": [
+        0.0,
+        0.6580062294678928,
+        -0.2437147584014479,
+        -10.196309567927099
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.793629116253555,
+        "pelvis_pitch": -0.1321482981381394,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.04907435529193659,
+        "pelvis_target_height": 0.7903582905365215,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          184.69395031483833,
+          208.66781445183108
+        ],
+        "task": "spin",
+        "spin_angle": -1.5313049891308,
+        "angular_velocity": -6.806719161017238,
+        "signed_turns": -0.2437147584014479,
+        "consecutive_turns": 0.0,
+        "best_consecutive_turns": 0.6580062294678928,
+        "completed_turns": 0,
+        "contact_time": 0.0,
+        "pelvis_y": -0.24289216183668352,
+        "pelvis_roll": -0.008536515137001153,
+        "fell": false,
+        "reward": -10.196309567927099,
+        "success": false
+      }
+    },
+    {
+      "steps": 37557,
+      "round": 2,
+      "parameters": [
+        0.04582277981451884,
+        0.03921392622504075,
+        1.0811843587852967,
+        1.67664125232967,
+        0.7882528067801459,
+        0.8255094874238428,
+        -1.3149474524531404,
+        15.040522849230676
+      ],
+      "score": [
+        0.0,
+        0.5514432286032266,
+        0.018222606687702095,
+        -5.010629972535912
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7752725098024444,
+        "pelvis_pitch": -0.07103038533167255,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.010766000499314624,
+        "pelvis_target_height": 0.7945218087841804,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          353.02579410499266,
+          347.09189634296615
+        ],
+        "task": "spin",
+        "spin_angle": 0.1144960145986823,
+        "angular_velocity": 0.3937443271756409,
+        "signed_turns": 0.018222606687702095,
+        "consecutive_turns": 0.04176778106732604,
+        "best_consecutive_turns": 0.5514432286032266,
+        "completed_turns": 0,
+        "contact_time": 0.06,
+        "pelvis_y": 0.02998342228108454,
+        "pelvis_roll": 0.0022738761687505897,
+        "fell": false,
+        "reward": -5.010629972535912,
+        "success": false
+      }
+    },
+    {
+      "steps": 32873,
+      "round": 2,
+      "parameters": [
+        0.03360583003580835,
+        0.048455911113906056,
+        1.0029091227016895,
+        2.950187757415107,
+        0.8293530040282265,
+        0.827089630270189,
+        -0.29154621184102725,
+        9.722608989788704
+      ],
+      "score": [
+        0.0,
+        0.48721450696508817,
+        0.021135540240124637,
+        -5.27356167218991
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7599552153129799,
+        "pelvis_pitch": -0.11705490044519434,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.013195188174728202,
+        "pelvis_target_height": 0.7894551389795132,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          283.05702389292,
+          403.07120599817716
+        ],
+        "task": "spin",
+        "spin_angle": 0.13279851589605404,
+        "angular_velocity": 0.5946583180170325,
+        "signed_turns": 0.021135540240124637,
+        "consecutive_turns": 0.035884027460401924,
+        "best_consecutive_turns": 0.48721450696508817,
+        "completed_turns": 0,
+        "contact_time": 0.06,
+        "pelvis_y": 0.009154574564288824,
+        "pelvis_roll": -0.04247854920874384,
+        "fell": false,
+        "reward": -5.27356167218991,
+        "success": false
+      }
+    },
+    {
+      "steps": 25873,
+      "round": 1,
+      "parameters": [
+        0.07348737549301597,
+        0.02948499261144322,
+        1.0212405438046575,
+        2.5448269914331325,
+        0.6334861716144485,
+        0.7917669547101701,
+        0.742496795645962,
+        12.748743454506876
+      ],
+      "score": [
+        0.0,
+        0.4388463327961652,
+        -0.0029207968586910512,
+        -6.255540877460316
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7598159618049487,
+        "pelvis_pitch": -0.1495978487672149,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.0203832434946237,
+        "pelvis_target_height": 0.7918248584168264,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          302.8354848979704,
+          449.68770135705654
+        ],
+        "task": "spin",
+        "spin_angle": -0.018351907907783915,
+        "angular_velocity": -0.4552313113801046,
+        "signed_turns": -0.0029207968586910512,
+        "consecutive_turns": 0.00865013413137256,
+        "best_consecutive_turns": 0.4388463327961652,
+        "completed_turns": 0,
+        "contact_time": 0.12000000000000001,
+        "pelvis_y": -0.11776834276164641,
+        "pelvis_roll": 0.03530780038255742,
+        "fell": false,
+        "reward": -6.255540877460316,
+        "success": false
+      }
+    },
+    {
+      "steps": 39557,
+      "round": 2,
+      "parameters": [
+        0.061855592965076596,
+        0.06,
+        1.074918854498408,
+        1.2723280534451096,
+        0.8582184704206961,
+        0.8344703370069394,
+        -1.789268494095813,
+        10.2466770094759
+      ],
+      "score": [
+        0.0,
+        0.4080799579496362,
+        -0.016805022491379676,
+        -5.770687624358789
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.801286009896036,
+        "pelvis_pitch": -0.09084152356146429,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.016428327400516595,
+        "pelvis_target_height": 0.8171203790611261,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          314.68683884403595,
+          316.11793045777614
+        ],
+        "task": "spin",
+        "spin_angle": -0.10558907040465927,
+        "angular_velocity": -1.8257670430955961,
+        "signed_turns": -0.016805022491379676,
+        "consecutive_turns": 0.0,
+        "best_consecutive_turns": 0.4080799579496362,
+        "completed_turns": 0,
+        "contact_time": 0.04,
+        "pelvis_y": -0.02675710900402268,
+        "pelvis_roll": 0.025645197053252654,
+        "fell": false,
+        "reward": -5.770687624358789,
+        "success": false
+      }
+    },
+    {
+      "steps": 17042,
+      "round": 1,
+      "parameters": [
+        0.0548650399014015,
+        0.03993794804662698,
+        0.987184717765685,
+        -0.5892731388849985,
+        1.0,
+        0.8187597871405585,
+        0.2543956548900521,
+        10.832063482173046
+      ],
+      "score": [
+        0.0,
+        0.3699467204458024,
+        -0.018552795832294695,
+        -6.267260669784994
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7781104307200776,
+        "pelvis_pitch": -0.06262605268843456,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.00991942122662581,
+        "pelvis_target_height": 0.8011525567552795,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          342.64721945598683,
+          354.1918764134487
+        ],
+        "task": "spin",
+        "spin_angle": -0.11657065418057673,
+        "angular_velocity": 0.3100076676544752,
+        "signed_turns": -0.018552795832294695,
+        "consecutive_turns": 0.0008138629869722032,
+        "best_consecutive_turns": 0.3699467204458024,
+        "completed_turns": 0,
+        "contact_time": 0.02,
+        "pelvis_y": 0.0031926946801113646,
+        "pelvis_roll": -0.0014932227599466735,
+        "fell": false,
+        "reward": -6.267260669784994,
+        "success": false
+      }
+    },
+    {
+      "steps": 29873,
+      "round": 1,
+      "parameters": [
+        0.046544554132380477,
+        0.05428405219336674,
+        1.0050573903690727,
+        1.2346810068186356,
+        0.9213680648327542,
+        0.8479982749416082,
+        0.301113233070355,
+        8.0
+      ],
+      "score": [
+        0.0,
+        0.36791574771971625,
+        0.025436303386502625,
+        -5.622269076161266
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7797113327912732,
+        "pelvis_pitch": -0.07234793057613592,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.008548926623048462,
+        "pelvis_target_height": 0.8029248959491869,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          396.5424051296013,
+          179.50051979948222
+        ],
+        "task": "spin",
+        "spin_angle": 0.15982100770703564,
+        "angular_velocity": 1.037567046091284,
+        "signed_turns": 0.025436303386502625,
+        "consecutive_turns": 0.07352886828080003,
+        "best_consecutive_turns": 0.36791574771971625,
+        "completed_turns": 0,
+        "contact_time": 0.02,
+        "pelvis_y": 0.0161149770416666,
+        "pelvis_roll": 0.016673683594667598,
+        "fell": false,
+        "reward": -5.622269076161266,
+        "success": false
+      }
+    },
+    {
+      "steps": 40557,
+      "round": 2,
+      "parameters": [
+        0.07723637557625715,
+        0.030724727969976627,
+        1.3012669023505183,
+        3.141592653589793,
+        1.0,
+        0.8382568175659569,
+        2.0760787775163703,
+        12.437656609680419
+      ],
+      "score": [
+        0.0,
+        0.35277436211140323,
+        -0.04661560028825815,
+        -7.371821741479386
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7854960421763558,
+        "pelvis_pitch": -0.03510788905940577,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.006489006014526617,
+        "pelvis_target_height": 0.8080490109276913,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          468.6633278287595,
+          276.1983315082067
+        ],
+        "task": "spin",
+        "spin_angle": -0.2928944548165395,
+        "angular_velocity": 1.5197974228652205,
+        "signed_turns": -0.04661560028825815,
+        "consecutive_turns": 0.01735817224060617,
+        "best_consecutive_turns": 0.35277436211140323,
+        "completed_turns": 0,
+        "contact_time": 0.0,
+        "pelvis_y": 0.049515729144687916,
+        "pelvis_roll": 0.06394502251508354,
+        "fell": false,
+        "reward": -7.371821741479386,
+        "success": false
+      }
+    },
+    {
+      "steps": 13193,
+      "round": 0,
+      "parameters": [
+        0.03972674745308051,
+        0.03384700839231518,
+        1.0700940965945787,
+        2.0067505073750684,
+        0.9426680285806286,
+        0.8259843585600622,
+        1.4344540984966914,
+        13.68969982036017
+      ],
+      "score": [
+        0.0,
+        0.3140636266289977,
+        -0.019840260855950854,
+        -6.138102411314724
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7680600674616362,
+        "pelvis_pitch": -0.06067015791712372,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.009610358295884061,
+        "pelvis_target_height": 0.7921745943853375,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          352.8317221477039,
+          335.6232811488891
+        ],
+        "task": "spin",
+        "spin_angle": -0.12466003550072069,
+        "angular_velocity": -0.860050964124109,
+        "signed_turns": -0.019840260855950854,
+        "consecutive_turns": 0.0,
+        "best_consecutive_turns": 0.3140636266289977,
+        "completed_turns": 0,
+        "contact_time": 0.0,
+        "pelvis_y": -0.028720332453241067,
+        "pelvis_roll": 0.0021847812918743144,
+        "fell": false,
+        "reward": -6.138102411314724,
+        "success": false
+      }
+    },
+    {
+      "steps": 22042,
+      "round": 1,
+      "parameters": [
+        0.08,
+        0.03664888992342259,
+        1.0914682697028553,
+        1.0363565123151535,
+        0.8893628424573574,
+        0.8193614669907566,
+        1.3253826035977339,
+        11.956489466003308
+      ],
+      "score": [
+        0.0,
+        0.3038633393398488,
+        -0.005709577801589703,
+        -6.722353529472332
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7532696207525434,
+        "pelvis_pitch": -0.08276839221846574,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.018666022375220137,
+        "pelvis_target_height": 0.7834402123349808,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          421.8873086913765,
+          204.79072643612142
+        ],
+        "task": "spin",
+        "spin_angle": -0.03587433535314726,
+        "angular_velocity": 0.6129696215029115,
+        "signed_turns": -0.005709577801589703,
+        "consecutive_turns": 0.012830538120840602,
+        "best_consecutive_turns": 0.3038633393398488,
+        "completed_turns": 0,
+        "contact_time": 0.08,
+        "pelvis_y": -0.20041978517585718,
+        "pelvis_roll": 0.014767159849004001,
+        "fell": false,
+        "reward": -6.722353529472332,
+        "success": false
+      }
+    },
+    {
+      "steps": 21042,
+      "round": 1,
+      "parameters": [
+        0.0557587364207285,
+        0.044809128434297,
+        0.8503613674630836,
+        1.880071732852338,
+        0.8684799590957497,
+        0.8256495246536086,
+        -1.40735899181395,
+        9.864650796484492
+      ],
+      "score": [
+        0.0,
+        0.2627625251928271,
+        0.01545079349380821,
+        -6.2793391924812045
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.8564054709230673,
+        "pelvis_pitch": -0.03609710545420644,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.005668880117697529,
+        "pelvis_target_height": 0.8657857222340041,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          383.1863723107904,
+          372.71882640120674
+        ],
+        "task": "spin",
+        "spin_angle": 0.09708019866456163,
+        "angular_velocity": -0.11079678532750227,
+        "signed_turns": 0.01545079349380821,
+        "consecutive_turns": 0.03083084705994397,
+        "best_consecutive_turns": 0.2627625251928271,
+        "completed_turns": 0,
+        "contact_time": 0.06,
+        "pelvis_y": -0.07459180471056309,
+        "pelvis_roll": -0.005062514246703558,
+        "fell": false,
+        "reward": -6.2793391924812045,
+        "success": false
+      }
+    },
+    {
+      "steps": 28873,
+      "round": 1,
+      "parameters": [
+        0.06376532389269596,
+        0.04859362408505294,
+        1.491810622380284,
+        -1.3104863610563855,
+        1.0,
+        0.826569593162919,
+        0.3128136544084046,
+        9.329787938440196
+      ],
+      "score": [
+        0.0,
+        0.2575138879624456,
+        -0.004251080038643142,
+        -6.450092016455609
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7621736374879554,
+        "pelvis_pitch": -0.0632246988865103,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.007939186535443482,
+        "pelvis_target_height": 0.7851136918572357,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          322.4968456282563,
+          356.2768129378144
+        ],
+        "task": "spin",
+        "spin_angle": -0.026710323638446894,
+        "angular_velocity": -0.10617293978609883,
+        "signed_turns": -0.004251080038643142,
+        "consecutive_turns": 0.0,
+        "best_consecutive_turns": 0.2575138879624456,
+        "completed_turns": 0,
+        "contact_time": 0.06,
+        "pelvis_y": -0.01965830040072956,
+        "pelvis_roll": -0.01808195857935755,
+        "fell": false,
+        "reward": -6.450092016455609,
+        "success": false
+      }
+    },
+    {
+      "steps": 19042,
+      "round": 1,
+      "parameters": [
+        0.044434052545966385,
+        0.04391372193252032,
+        0.9374387380947573,
+        0.5767767191465945,
+        0.689915034412152,
+        0.8142132245962241,
+        2.9351099940427945,
+        11.111353217428487
+      ],
+      "score": [
+        0.0,
+        0.24666352651742812,
+        0.014757790401788205,
+        -6.252300789909174
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.836646327406919,
+        "pelvis_pitch": -0.03842595956714179,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.005905259184826614,
+        "pelvis_target_height": 0.8447694570449865,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          392.336427260112,
+          319.96085880420895
+        ],
+        "task": "spin",
+        "spin_angle": 0.09272593181895146,
+        "angular_velocity": -0.2336586205237676,
+        "signed_turns": 0.014757790401788205,
+        "consecutive_turns": 0.03624144439027724,
+        "best_consecutive_turns": 0.24666352651742812,
+        "completed_turns": 0,
+        "contact_time": 0.02,
+        "pelvis_y": 0.002674918149050436,
+        "pelvis_roll": 0.010457193777307337,
+        "fell": false,
+        "reward": -6.252300789909174,
+        "success": false
+      }
+    },
+    {
+      "steps": 5621,
+      "round": 0,
+      "parameters": [
+        0.06269256349170609,
+        0.04614009921480923,
+        0.5819496992349621,
+        1.1554810324567777,
+        1.0,
+        0.7998306787764946,
+        1.7548897205520868,
+        12.38790058351389
+      ],
+      "score": [
+        0.0,
+        0.24138459692663733,
+        -0.006956798788789849,
+        -7.207823729312346
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.801445817156291,
+        "pelvis_pitch": -0.07909719651113993,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.013278137345620639,
+        "pelvis_target_height": 0.8147413128199164,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          335.22896902459365,
+          397.3934721646233
+        ],
+        "task": "spin",
+        "spin_angle": -0.043710855934729134,
+        "angular_velocity": 2.7793631020034275,
+        "signed_turns": -0.006956798788789849,
+        "consecutive_turns": 0.051052960970566934,
+        "best_consecutive_turns": 0.24138459692663733,
+        "completed_turns": 0,
+        "contact_time": 0.14,
+        "pelvis_y": -0.09687440505097802,
+        "pelvis_roll": 0.002954479806265885,
+        "fell": false,
+        "reward": -7.207823729312346,
+        "success": false
+      }
+    },
+    {
+      "steps": 10621,
+      "round": 0,
+      "parameters": [
+        0.04956689202478636,
+        0.03957171305798046,
+        1.1203210192110968,
+        0.7533824970146554,
+        0.9358826259111401,
+        0.8082756907085544,
+        -0.023527243576507484,
+        10.558361025333138
+      ],
+      "score": [
+        0.0,
+        0.23878697653985237,
+        0.002387003114853036,
+        -6.4169574913176115
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.7749262086922029,
+        "pelvis_pitch": -0.052306702766627,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.008764220940104742,
+        "pelvis_target_height": 0.7956355941211277,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          345.9616067222839,
+          330.79416741767074
+        ],
+        "task": "spin",
+        "spin_angle": 0.014997982899436465,
+        "angular_velocity": 0.6160024783539184,
+        "signed_turns": 0.002387003114853036,
+        "consecutive_turns": 0.019171580134061138,
+        "best_consecutive_turns": 0.23878697653985237,
+        "completed_turns": 0,
+        "contact_time": 0.02,
+        "pelvis_y": -0.09584222072427695,
+        "pelvis_roll": 0.004694430556751169,
+        "fell": false,
+        "reward": -6.4169574913176115,
+        "success": false
+      }
+    },
+    {
+      "steps": 36557,
+      "round": 2,
+      "parameters": [
+        0.041267966504187,
+        0.06,
+        1.2041571985521142,
+        1.6222397529787287,
+        0.9474182629323137,
+        0.8113906814824863,
+        -0.3634388267745674,
+        15.014220101550375
+      ],
+      "score": [
+        0.0,
+        0.22121969120632984,
+        0.01485533871549129,
+        -6.605645204582298
+      ],
+      "episode": {
+        "seed": 7,
+        "time": 19.999999999999794,
+        "best_hold": 0.0,
+        "upright_time": 0.0,
+        "hold": 0.0,
+        "pelvis_height": 0.8054085693453683,
+        "pelvis_pitch": -0.06288624445798044,
+        "pelvis_target_pitch": 0.0,
+        "lumbar_angle": 0.009295043624715189,
+        "pelvis_target_height": 0.8197747752160083,
+        "pole_supported": false,
+        "balance_mode": false,
+        "ground_forces": [
+          356.7024814965421,
+          330.8232932948357
+        ],
+        "task": "spin",
+        "spin_angle": 0.09333884595035093,
+        "angular_velocity": 0.564908393009742,
+        "signed_turns": 0.01485533871549129,
+        "consecutive_turns": 0.037112613073117674,
+        "best_consecutive_turns": 0.22121969120632984,
+        "completed_turns": 0,
+        "contact_time": 0.04,
+        "pelvis_y": -0.06985796716800705,
+        "pelvis_roll": 0.00508471463525273,
+        "fell": false,
+        "reward": -6.605645204582298,
+        "success": false
+      }
+    }
+  ],
+  "training_steps_total": 120264,
+  "population": 16
+}

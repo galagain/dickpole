@@ -55,6 +55,92 @@ in `outputs/training`. To run your trained model:
 .venv/bin/mjpython main.py play --model outputs/training
 ```
 
+## Helicopter mode
+
+A second task learns **front-facing 3D rotations** instead of upright balance.
+The appendage starts hanging down at rest. Only lateral and vertical pelvis
+motion can be commanded; the rotor remains passive.
+
+[![Helicopter simulation](media/spin.gif)](media/spin.mp4)
+
+```bash
+# Watch the included helicopter controller
+.venv/bin/mjpython main.py play --task spin
+
+# Move the pelvis manually: arrows for lateral motion and height
+.venv/bin/mjpython main.py env --task spin
+
+# Learn controller parameters from episode rewards
+.venv/bin/python main.py train --task spin --steps 262144
+
+# Continue from the included controller
+.venv/bin/python main.py train --task spin --pretrained --steps 262144
+
+# Play / evaluate a newly trained controller
+.venv/bin/mjpython main.py play --task spin --model outputs/spin_training
+.venv/bin/python main.py evaluate --task spin --model outputs/spin_training
+```
+
+### Physics and objective
+
+This task extends the body to **27 degrees of freedom and 24 Hill-type
+muscles**, adding lateral pelvis translation, pelvis roll and antagonist
+muscles for lateral trunk, hip and ankle control. Feet remain supported by
+frictional ground contacts. Pelvis yaw is constrained. A passive hinge rotates
+the appendage in the frontal plane; passive bending allows out-of-plane motion.
+A fixed **0.28 m anterior stand-off** provides clearance for complete turns.
+This deliberately simplified attachment is not anatomical validation.
+
+With $`\theta`$ measured relative to the pelvis, downward is zero. For an
+ideal rigid pendulum, lateral and vertical pivot accelerations obey
+
+```math
+I\ddot\theta + c\dot\theta + mgl\sin\theta
+= -ml\left(\ddot y_p\cos\theta + \ddot z_p\sin\theta\right).
+```
+
+MuJoCo solves the complete articulated system, including muscle activation,
+body reactions and contacts. There is **no rotor torque command** and no
+externally applied force to hold the body upright. Actions change bounded
+pelvis position targets, which the muscle reflex attempts to track.
+
+The policy first pumps the pendulum for four seconds, then uses angle feedback
+to synchronize lateral and vertical pelvis targets. A speed-dependent amplitude
+reduction limits further energy input. **Cross-entropy policy search (CEM)**
+learns eight controller parameters from physical rollouts: amplitudes, frequency,
+phase, feedback mix, height, vertical phase and a speed threshold. This extension
+uses episodic parameter search, rather than the balance task's residual PPO.
+The controller includes a designed pumping pattern; it does not learn from
+unstructured muscle commands.
+
+For signed rotor advance $`\Delta\theta`$, decision interval $`\Delta t`$,
+mean squared muscle activation $`A`$ and target speed $`\omega_* = 2\pi`$,
+the environment reward is
+
+```math
+r_t = \frac{8\Delta\theta_{\mathrm{credited}}}{2\pi}
+- \Delta t\left[0.01(\dot\theta-\omega_*)^2 + 0.005A
++ 2\mathbf{1}_{\mathrm{contact}}\right]
+- 5\mathbf{1}_{\mathrm{fall}}.
+```
+
+Positive advances earn credit only without appendage contact; reverse motion
+always loses credit. Search also rewards improvements to the episode's best
+continuous rotation streak. CEM ranks survival and the best free rotation
+streak first, followed by signed turns and episode return.
+Back-and-forth swings cannot accumulate full turns.
+Contact, sustained stalling or reversal resets the current streak. A rotation
+is measured relative to the pelvis, so rolling the whole body does not count.
+A successful episode requires **three consecutive free turns and no body fall
+throughout 20 seconds**. Candidate policies are selected using independent
+simulation copies before the live rollout, as in balance mode.
+
+The bundled helicopter library passed **10/10 held-out episodes**, with
+**23.2 turns in the mean best continuous streak** and no body falls.
+See the [full helicopter validation](reports/spin_validation.json).
+These results include simulation-based policy selection and describe this
+mechanical model, rather than human anatomy.
+
 ## The control problem
 
 DickPole is a **swing-up and balance problem**. The appendage starts pointing
@@ -256,4 +342,5 @@ See [validation results](reports/validation.json).
 This is a simplified mechanical benchmark, not a validated anatomical model.
 It uses rigid segments, approximate muscle parameters and fixed tendon moment
 arms. It does not simulate volumetric soft tissue, blood flow, muscle fatigue,
-out-of-plane balance or an independently learned walking controller.
+an independently learned walking controller. Balance mode is planar; helicopter
+mode adds the lateral degrees of freedom described above.
