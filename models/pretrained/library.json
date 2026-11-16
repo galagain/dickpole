@@ -1,0 +1,8 @@
+{
+  "method": "Residual PPO + LQR + simulation-based policy selection",
+  "profiles": 32,
+  "policy": "policy.zip",
+  "heads": "heads.npz",
+  "validation": "validation.json",
+  "planning_uses_known_simulator": true
+}
