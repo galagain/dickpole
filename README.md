@@ -182,7 +182,7 @@ energy features, control phase, and the baseline controller's commands.
 Its three outputs are bounded residual corrections:
 
 $$
-u_t = \operatorname{clip}\left(
+u_t = \mathrm{clip}\left(
   u_{\mathrm{base}}(s_t) + \alpha(s_t)\,\delta u_{\mathrm{PPO}}(o_t),
   -1,1
 \right).
