@@ -12,7 +12,7 @@ class HumanoidTests(unittest.TestCase):
     def test_both_tasks_have_identical_physics(self):
         a, b = HumanoidEnv(task='balance'), HumanoidEnv(task='spin')
         a.reset(seed=17); b.reset(seed=17)
-        for action in ([.1,-.1],[-.1,.1],[0.,0.])*30:
+        for action in ([.1,-.1,.05,-.03,.02],[-.1,.1,-.05,.03,-.02],[0.,0.,0.,0.,0.])*30:
             a.step(action); b.step(action)
         np.testing.assert_array_equal(a.data.qpos,b.data.qpos)
         np.testing.assert_array_equal(a.data.qvel,b.data.qvel)
@@ -21,17 +21,30 @@ class HumanoidTests(unittest.TestCase):
         self.assertEqual(a.model.nu,24)
         self.assertEqual(a.action_space.shape,b.action_space.shape)
         self.assertEqual(a.observation_space.shape,b.observation_space.shape)
-        self.assertEqual(a.observe()[-1],1.)
-        self.assertEqual(b.observe()[-1],0.)
+        np.testing.assert_array_equal(a.observe(),b.observe())
+        self.assertEqual(a.info(),b.info())
+        self.assertEqual(a.observation_space.shape,(94,))
+        self.assertEqual(a.action_space.shape,(5,))
 
-    def test_attachment_meets_body_surface(self):
+    def test_original_proportions_and_unlimited_passive_base(self):
         env=HumanoidEnv()
-        pelvis_front=float(env.model.geom('pelvis_geom').size[0])
-        attachment=float(env.model.body('pole_0').pos[0])
-        root_radius=float(env.model.geom('anatomical_root').size[0])
-        self.assertLess(attachment-pelvis_front,root_radius)
-        self.assertAlmostEqual(np.linalg.norm(env.data.site('pole_tip').xpos-env.data.body('pole_0').xpos),.21)
-        self.assertNotIn('rotor_attachment',humanoid_model_xml())
+        self.assertEqual(env.model.geom('pelvis_geom').type,mujoco.mjtGeom.mjGEOM_BOX)
+        np.testing.assert_array_equal(env.model.geom('pelvis_geom').size,[.10,.14,.09])
+        self.assertAlmostEqual(np.linalg.norm(env.data.site('pole_tip').xpos-env.data.body('pole_0').xpos),.36)
+        self.assertFalse(env.model.joint('pole_0_joint').limited[0])
+        for angle in np.linspace(-4*math.pi,4*math.pi,65):
+            env.data.qpos[env.qids['pole_0_joint']]=angle
+            mujoco.mj_forward(env.model,env.data)
+            self.assertFalse(env.pole_supported())
+
+    def test_front_camera_faces_the_anatomical_front(self):
+        env=HumanoidEnv()
+        camera=env.model.camera('front').id
+        position=env.data.cam_xpos[camera]
+        forward=-env.data.cam_xmat[camera].reshape(3,3)[:,2]
+        self.assertGreater(position[0],env.data.body('pole_0').xpos[0])
+        self.assertGreater(np.dot(forward,env.data.body('pelvis').xpos-position),0.)
+        self.assertGreater(env.data.geom('eye_l').xpos[0],env.data.geom('head').xpos[0])
 
     def test_only_native_muscles_actuate_the_skeleton(self):
         env=HumanoidEnv()
@@ -48,7 +61,7 @@ class HumanoidTests(unittest.TestCase):
     def test_ground_support_without_external_forces(self):
         env=HumanoidEnv();env.reset(seed=7);forces=[]
         for _ in range(300):
-            _,_,done,_,info=env.step([0,0]);self.assertFalse(done)
+            _,_,done,_,info=env.step([0,0,0,0,0]);self.assertFalse(done)
             forces.append(sum(info['ground_forces']))
         self.assertAlmostEqual(np.mean(forces[-100:])/(sum(env.model.body_mass)*9.81),1.,delta=.08)
         self.assertFalse(np.any(env.data.xfrc_applied))
@@ -78,7 +91,7 @@ class HumanoidTests(unittest.TestCase):
         states=[]
         for _ in range(2):
             env.reset(seed=7)
-            for _ in range(100):env.step([.1,-.1])
+            for _ in range(100):env.step([.1,-.1,.05,-.03,.02])
             states.append(env.data.qpos.copy())
         np.testing.assert_array_equal(*states)
 

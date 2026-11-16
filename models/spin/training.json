@@ -1,11 +1,10 @@
 {
   "task": "spin",
-  "algorithm": "CEM phase-feedback policy search",
+  "algorithm": "shared CEM, undiscounted environment return",
+  "steps": 120503,
   "seed": 7,
-  "steps": 160574,
-  "direction": 1,
   "population": 16,
-  "success": "three consecutive free rotations and no body fall",
+  "rounds": 6,
   "parameter_names": [
     "lateral_radius",
     "vertical_radius",
@@ -14,7 +13,19 @@
     "phase_feedback",
     "height_center",
     "vertical_phase",
-    "speed_cap"
+    "speed_threshold",
+    "energy_target",
+    "pumping_gain",
+    "position_damping",
+    "velocity_damping",
+    "height_pumping",
+    "crouch_height",
+    "capture_angle",
+    "capture_speed",
+    "feedback_gain",
+    "oscillator_fraction",
+    "capture_enabled",
+    "roll_pumping"
   ],
-  "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+  "physical_model_sha256": "24ba7876555f3a97c28a23e43816c418ac2688e74b5ba3dfa569e08606c4289c"
 }

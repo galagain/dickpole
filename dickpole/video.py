@@ -24,7 +24,8 @@ def render_presentation(policy, output, seed=3000, plan=True):
     sim.model.vis.global_.offwidth = max(width, sim.model.vis.global_.offwidth)
     renderer = mujoco.Renderer(sim.model, height=height, width=width)
     camera = mujoco.MjvCamera()
-    camera.azimuth, camera.elevation, camera.distance = 12, -12, 2.8
+    camera.type = mujoco.mjtCamera.mjCAMERA_FIXED
+    camera.fixedcamid = sim.model.camera('front').id
     command = [executable, '-y', '-loglevel', 'error', '-f', 'rawvideo',
                '-pixel_format', 'rgb24', '-video_size', f'{width}x{height}',
                '-framerate', str(fps), '-i', 'pipe:0', '-an', '-c:v', 'libx264',
@@ -39,7 +40,6 @@ def render_presentation(policy, output, seed=3000, plan=True):
                     obs, _, done, _, _ = env.step(action)
                     if done:
                         raise RuntimeError('The recorded episode fell')
-                camera.lookat[:] = [*sim.data.body('pelvis').xpos[:2], .85]
                 renderer.update_scene(sim.data, camera=camera)
                 encoder.stdin.write(renderer.render().tobytes())
         finally:

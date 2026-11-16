@@ -7,11 +7,11 @@ import mujoco
 import numpy as np
 from scipy.linalg import solve_discrete_are
 
-from .humanoid import HumanoidEnv, SIDE_JOINTS
+from .humanoid import HumanoidEnv
 
 
-def _identify(target_y=0., height=.86):
-    env = HumanoidEnv(task='balance')
+def _identify(target_y=0., height=.1+.8*math.cos(.35)):
+    env = HumanoidEnv()  # Reward is ignored during system identification.
     env.reset(seed=7)
     env.target_y = target_y
     env.target_height = height
@@ -22,7 +22,7 @@ def _identify(target_y=0., height=.86):
         env.data.qpos[rotor] = math.pi-env.data.qpos[env.qids['root_roll']]
         env.data.qvel[env.dofs['pole_0_joint']] = -env.data.qvel[env.dofs['root_roll']]
         mujoco.mj_forward(env.model, env.data)
-        env.step([0., 0.])
+        env.step([0.,0.,0.,0.,0.])
     env.data.qpos[rotor] = math.pi-env.data.qpos[env.qids['root_roll']]
     env.data.qvel[env.dofs['pole_0_joint']] = -env.data.qvel[env.dofs['root_roll']]
     mujoco.mj_forward(env.model, env.data)
@@ -31,7 +31,7 @@ def _identify(target_y=0., height=.86):
 
     def state():
         return np.r_[env.data.qpos[qi], env.data.qvel[vi], env.data.act[ai],
-                     env.target_y, env.target_height]
+                     env.target_y,env.target_height,env.target_x,env.target_pitch,env.target_roll]
 
     reference, baseline = state(), copy.copy(env.data)
 
@@ -39,39 +39,37 @@ def _identify(target_y=0., height=.86):
         mujoco.mj_copyData(env.data, env.model, baseline)
         env.data.qpos[qi] = s[:len(qi)]
         env.data.qvel[vi] = s[len(qi):len(qi)+len(vi)]
-        env.data.act[ai] = s[-(len(ai)+2):-2]
-        env.target_y, env.target_height = float(s[-2]), float(s[-1])
+        env.data.act[ai] = s[-(len(ai)+5):-5]
+        env.target_y,env.target_height,env.target_x,env.target_pitch,env.target_roll = map(float,s[-5:])
         mujoco.mj_forward(env.model, env.data)
         env.step(action)
         return state()
 
     n, eps = len(reference), 1e-5
-    A, B = np.zeros((n, n)), np.zeros((n, 2))
+    A, B = np.zeros((n, n)), np.zeros((n, 5))
     for j in range(n):
         delta = np.eye(1, n, j).ravel()*eps
-        A[:, j] = (advance(reference+delta, [0,0])-advance(reference-delta, [0,0]))/(2*eps)
-    for j in range(2):
-        delta = np.eye(1, 2, j).ravel()*eps
+        A[:, j] = (advance(reference+delta, [0,0,0,0,0])-advance(reference-delta, [0,0,0,0,0]))/(2*eps)
+    for j in range(5):
+        delta = np.eye(1, 5, j).ravel()*eps
         B[:, j] = (advance(reference, delta)-advance(reference, -delta))/(2*eps)
-    Q = np.eye(n)*.01
-    for name, weight in [('pole_0_joint',1000), ('root_roll',10),
-                         ('root_pitch',10), ('pole_splay',100)]:
-        j = int(np.flatnonzero(qi == env.qids[name])[0])
-        Q[j,j] = weight
-    Q[len(qi)+env.dofs['pole_0_joint'],len(qi)+env.dofs['pole_0_joint']] = 50
-    R = np.eye(2)*100
+    Q=np.eye(n)*.01
+    frontal=np.zeros(n);sagittal=np.zeros(n)
+    for name,coefficient in [('pole_0_joint',1.),('root_roll',1.)]:
+        frontal[np.flatnonzero(qi==env.qids[name])[0]]=coefficient
+    for name,coefficient in [('root_pitch',1.),('pole_splay',-1.),
+                             ('pole_1_joint',2/3),('pole_2_joint',1/3)]:
+        sagittal[np.flatnonzero(qi==env.qids[name])[0]]=coefficient
+    Q+=1000*(np.outer(frontal,frontal)+np.outer(sagittal,sagittal))
+    for name in ('root_roll','root_pitch'):
+        j=int(np.flatnonzero(qi==env.qids[name])[0]);Q[j,j]+=10.
+    for position in (frontal,sagittal):
+        velocity=np.zeros(n)
+        for j,index in enumerate(qi):velocity[len(qi)+index]=position[j]
+        Q+=50*np.outer(velocity,velocity)
+    R = np.diag([.1,100.,.1,.1,.1])
     P = solve_discrete_are(A, B, Q, R)
-    K = np.linalg.solve(R+B.T@P@B, B.T@P@A)[0]
-    # Keep lateral feedback; the reflex independently stabilizes the sagittal
-    # plane. This avoids reacting to its small stance oscillations with y moves.
-    mask = np.zeros(n, bool)
-    for name in ['root_roll', *SIDE_JOINTS, 'pole_0_joint']:
-        mask[np.flatnonzero(qi == env.qids[name])[0]] = True
-        mask[len(qi)+env.dofs[name]] = True
-    mask[len(qi)+env.dofs['root_y']] = True
-    mask[len(qi)+len(vi)+14:len(qi)+len(vi)+24] = True
-    mask[-2] = True
-    K[~mask] = 0.
+    K = np.linalg.solve(R+B.T@P@B, B.T@P@A)
     env.close()
     return reference, K, qi, vi, ai
 

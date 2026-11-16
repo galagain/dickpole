@@ -1,86 +1,178 @@
 [
   {
     "seed": 7,
+    "task": "balance",
+    "trained_task": "balance",
     "time": 19.999999999999794,
-    "best_hold": 17.159999999999723,
-    "upright_time": 17.23999999999972,
-    "hold": 17.159999999999723,
-    "pelvis_height": 0.8493876687550411,
-    "pelvis_pitch": -0.05532964000236993,
-    "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.005497837128969804,
-    "pelvis_target_height": 0.8599999999999998,
+    "best_hold": 0.0,
+    "upright_time": 0.0,
+    "hold": 0.0,
+    "pelvis_height": 0.800886003345966,
+    "pelvis_pitch": -0.05946203180164016,
+    "pelvis_target_pitch": 0.22997439404562225,
+    "lumbar_angle": -0.10713324537481032,
+    "pelvis_target_height": 0.8607656112324968,
     "pole_supported": false,
     "balance_mode": true,
     "ground_forces": [
-      340.43083997945274,
-      336.4591713121588
+      0.0,
+      0.0
     ],
-    "task": "balance",
-    "spin_angle": -3.1397416758918126,
-    "angular_velocity": -6.638800090994062e-05,
-    "signed_turns": -0.49970540774981353,
+    "spin_angle": 2.4935324375718935,
+    "angular_velocity": -2.642496518707647,
+    "signed_turns": 0.3968580131995498,
     "consecutive_turns": 0.0,
-    "best_consecutive_turns": 0.6131487708257802,
+    "best_consecutive_turns": 0.8570795820703451,
     "completed_turns": 0,
     "contact_time": 0.0,
-    "mean_free_rps": -5.068632971741414e-05,
-    "fast_time": 0.19999999999999998,
-    "peak_rps": 2.253852470013098,
-    "pelvis_y": -0.0041031532222950305,
-    "pelvis_roll": -0.0018512480461081247,
-    "reward": 484.53217312129385,
+    "mean_free_rps": -0.0009638230171518125,
+    "fast_time": 2.2400000000000015,
+    "peak_rps": 1.888303349983025,
+    "pelvis_y": -0.3833172339786415,
+    "pelvis_roll": 0.30569635397177486,
+    "reward": 20.79623806239261,
     "fell": false,
-    "success": true,
+    "success": false,
     "plan": {
       "profile": 0,
-      "predicted_success": true,
+      "predicted_success": false,
       "attempts": [
         {
           "profile": 0,
-          "success": true,
-          "metric": 17.159999999999723,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 1,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 2,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 3,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 4,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 5,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 6,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 7,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 8,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 9,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 10,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 11,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 12,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 13,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 14,
+          "success": false,
+          "metric": 0.0,
+          "fell": false
+        },
+        {
+          "profile": 15,
+          "success": false,
+          "metric": 0.0,
           "fell": false
         }
       ]
     },
-    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+    "physical_model_sha256": "24ba7876555f3a97c28a23e43816c418ac2688e74b5ba3dfa569e08606c4289c"
   },
   {
     "seed": 3000,
+    "task": "balance",
+    "trained_task": "balance",
     "time": 19.999999999999794,
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.83098477826697,
-    "pelvis_pitch": -0.1687279742017308,
+    "pelvis_height": 0.7857677077212433,
+    "pelvis_pitch": -0.17589236812571288,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.030674057776598394,
-    "pelvis_target_height": 0.8515,
+    "lumbar_angle": 0.023978445035597016,
+    "pelvis_target_height": 0.8093386546057171,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      375.9619670612352,
-      239.8949631089231
+      468.647743634173,
+      385.7413375268143
     ],
-    "task": "balance",
-    "spin_angle": 1.4641571792169725,
-    "angular_velocity": -7.8424810654086965,
-    "signed_turns": 0.23302785253586739,
-    "consecutive_turns": 0.0,
-    "best_consecutive_turns": 0.6655611490384816,
+    "spin_angle": -0.8151214741363096,
+    "angular_velocity": 10.165686452164856,
+    "signed_turns": -0.12973061182914616,
+    "consecutive_turns": 0.2478989417401257,
+    "best_consecutive_turns": 0.8385969385054138,
     "completed_turns": 0,
     "contact_time": 0.0,
-    "mean_free_rps": 0.0008211091887899783,
-    "fast_time": 3.660000000000003,
-    "peak_rps": 2.3291880523992137,
-    "pelvis_y": -0.09110033995962892,
-    "pelvis_roll": -0.03516892126911516,
-    "reward": 6.0958524531677005,
+    "mean_free_rps": -0.030129468283904774,
+    "fast_time": 2.2400000000000015,
+    "peak_rps": 1.8936806258978665,
+    "pelvis_y": 0.09269381156251834,
+    "pelvis_roll": 0.029581420279187077,
+    "reward": 13.392533509472367,
     "fell": false,
     "success": false,
     "plan": {
-      "profile": 1,
+      "profile": 2,
       "predicted_success": false,
       "attempts": [
         {
@@ -92,80 +184,80 @@
         {
           "profile": 1,
           "success": false,
-          "metric": 0.0,
-          "fell": false
+          "metric": 0.19999999999999998,
+          "fell": true
         },
         {
           "profile": 2,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 3,
           "success": false,
-          "metric": 0.14,
-          "fell": true
+          "metric": 0.0,
+          "fell": false
         },
         {
           "profile": 4,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 5,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 6,
           "success": false,
-          "metric": 0.06,
-          "fell": true
+          "metric": 0.0,
+          "fell": false
         },
         {
           "profile": 7,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 8,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 9,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 10,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 11,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 12,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 13,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 14,
@@ -178,149 +270,54 @@
           "success": false,
           "metric": 0.0,
           "fell": false
-        },
-        {
-          "profile": 16,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 17,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 18,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 19,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 20,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 21,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 22,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 23,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 24,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 25,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 26,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 27,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 28,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 29,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 30,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 31,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
         }
       ]
     },
-    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+    "physical_model_sha256": "24ba7876555f3a97c28a23e43816c418ac2688e74b5ba3dfa569e08606c4289c"
   },
   {
     "seed": 3001,
+    "task": "balance",
+    "trained_task": "balance",
     "time": 19.999999999999794,
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.8178271853445984,
-    "pelvis_pitch": -0.4695321273856326,
+    "pelvis_height": 0.7977619174109464,
+    "pelvis_pitch": -0.14341297312413315,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.13175509421576911,
-    "pelvis_target_height": 0.8515,
+    "lumbar_angle": 0.01910172949430374,
+    "pelvis_target_height": 0.8171678342248114,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      0.0,
-      444.11570849729856
+      313.9524654900656,
+      324.8744661036679
     ],
-    "task": "balance",
-    "spin_angle": -0.41173252013104017,
-    "angular_velocity": 18.56510453275843,
-    "signed_turns": 3.934470734189462,
-    "consecutive_turns": 4.300525043179322,
-    "best_consecutive_turns": 4.300525043179322,
-    "completed_turns": 3,
+    "spin_angle": -1.872594506461348,
+    "angular_velocity": 6.264835492237615,
+    "signed_turns": -0.29803267211005163,
+    "consecutive_turns": 0.10083640031368417,
+    "best_consecutive_turns": 0.8235182434580596,
+    "completed_turns": 0,
     "contact_time": 0.0,
-    "mean_free_rps": 0.23372599060854563,
-    "fast_time": 4.879999999999984,
-    "peak_rps": 3.2516932509145486,
-    "pelvis_y": 0.009655744133547334,
-    "pelvis_roll": -0.055952643869225646,
-    "reward": 9.96560239680821,
+    "mean_free_rps": -0.004248777213895081,
+    "fast_time": 2.2800000000000016,
+    "peak_rps": 1.9098794759897333,
+    "pelvis_y": -0.028353634396042476,
+    "pelvis_roll": 0.034403919817242494,
+    "reward": 16.608086764470364,
     "fell": false,
     "success": false,
     "plan": {
-      "profile": 1,
+      "profile": 4,
       "predicted_success": false,
       "attempts": [
         {
           "profile": 0,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 1,
@@ -331,44 +328,44 @@
         {
           "profile": 2,
           "success": false,
-          "metric": 0.27999999999999997,
-          "fell": true
+          "metric": 0.0,
+          "fell": false
         },
         {
           "profile": 3,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 4,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 5,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 6,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 7,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 8,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 9,
@@ -380,13 +377,13 @@
           "profile": 10,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 11,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 12,
@@ -398,628 +395,67 @@
           "profile": 13,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 14,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 15,
           "success": false,
           "metric": 0.0,
           "fell": false
-        },
-        {
-          "profile": 16,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 17,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 18,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 19,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 20,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 21,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 22,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 23,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 24,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 25,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 26,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 27,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 28,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 29,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 30,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 31,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
         }
       ]
     },
-    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+    "physical_model_sha256": "24ba7876555f3a97c28a23e43816c418ac2688e74b5ba3dfa569e08606c4289c"
   },
   {
     "seed": 3002,
+    "task": "balance",
+    "trained_task": "balance",
     "time": 19.999999999999794,
     "best_hold": 0.0,
     "upright_time": 0.0,
     "hold": 0.0,
-    "pelvis_height": 0.8532989670602459,
-    "pelvis_pitch": -0.26619604790481877,
+    "pelvis_height": 0.792405248550935,
+    "pelvis_pitch": -0.1359446119072214,
     "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.05420060324905318,
-    "pelvis_target_height": 0.8515,
+    "lumbar_angle": 0.022947288433321944,
+    "pelvis_target_height": 0.8120125080485264,
     "pole_supported": false,
     "balance_mode": false,
     "ground_forces": [
-      494.3564342707847,
-      326.880737659783
+      353.4441639441621,
+      211.31392637104193
     ],
-    "task": "balance",
-    "spin_angle": -1.7263177689472873,
-    "angular_velocity": 3.6658203226357853,
-    "signed_turns": -0.27475200627533325,
-    "consecutive_turns": 0.025608497229471925,
-    "best_consecutive_turns": 0.6730743098671103,
-    "completed_turns": 0,
-    "contact_time": 0.0,
-    "mean_free_rps": -0.023077546457090748,
-    "fast_time": 3.5000000000000027,
-    "peak_rps": 2.3323100110662076,
-    "pelvis_y": 0.07085884171789601,
-    "pelvis_roll": 0.03587258999686809,
-    "reward": 3.368373542701474,
-    "fell": false,
-    "success": false,
-    "plan": {
-      "profile": 12,
-      "predicted_success": false,
-      "attempts": [
-        {
-          "profile": 0,
-          "success": false,
-          "metric": 0.27999999999999997,
-          "fell": true
-        },
-        {
-          "profile": 1,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 2,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 3,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 4,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 5,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 6,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 7,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 8,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 9,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 10,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 11,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 12,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 13,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 14,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 15,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 16,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 17,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 18,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 19,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 20,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 21,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 22,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 23,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 24,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 25,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 26,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 27,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 28,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 29,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 30,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 31,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        }
-      ]
-    },
-    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
-  },
-  {
-    "seed": 3003,
-    "time": 19.999999999999794,
-    "best_hold": 0.0,
-    "upright_time": 0.0,
-    "hold": 0.0,
-    "pelvis_height": 0.8355548285453356,
-    "pelvis_pitch": -0.13693105122156385,
-    "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.01660239901733916,
-    "pelvis_target_height": 0.8453981348960633,
-    "pole_supported": false,
-    "balance_mode": false,
-    "ground_forces": [
-      311.3529202675617,
-      141.00796204119578
-    ],
-    "task": "balance",
-    "spin_angle": -0.4809024016542365,
-    "angular_velocity": -19.245593799150168,
-    "signed_turns": -4.076537994368036,
+    "spin_angle": -1.9776149326154726,
+    "angular_velocity": -6.521656251652485,
+    "signed_turns": -0.31474719205809804,
     "consecutive_turns": 0.0,
-    "best_consecutive_turns": 0.6761509429458474,
+    "best_consecutive_turns": 0.8204277287921624,
     "completed_turns": 0,
     "contact_time": 0.0,
-    "mean_free_rps": -0.26565329537140103,
-    "fast_time": 3.2800000000000025,
-    "peak_rps": 2.3920427863796734,
-    "pelvis_y": -0.13755496790523664,
-    "pelvis_roll": 0.0065542854595341555,
-    "reward": 5.689108136113917,
+    "mean_free_rps": -0.044754083361250196,
+    "fast_time": 2.2000000000000015,
+    "peak_rps": 1.9213130441620725,
+    "pelvis_y": 0.14477339543079057,
+    "pelvis_roll": 0.0028547847132473765,
+    "reward": 15.80386039924694,
     "fell": false,
     "success": false,
     "plan": {
-      "profile": 1,
+      "profile": 2,
       "predicted_success": false,
       "attempts": [
         {
           "profile": 0,
           "success": false,
           "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 1,
-          "success": false,
-          "metric": 0.0,
           "fell": false
-        },
-        {
-          "profile": 2,
-          "success": false,
-          "metric": 0.14,
-          "fell": true
-        },
-        {
-          "profile": 3,
-          "success": false,
-          "metric": 0.18,
-          "fell": true
-        },
-        {
-          "profile": 4,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 5,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 6,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 7,
-          "success": false,
-          "metric": 0.04,
-          "fell": true
-        },
-        {
-          "profile": 8,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 9,
-          "success": false,
-          "metric": 0.06,
-          "fell": true
-        },
-        {
-          "profile": 10,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 11,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 12,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 13,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 14,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 15,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 16,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 17,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 18,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 19,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 20,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 21,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 22,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 23,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 24,
-          "success": false,
-          "metric": 0.08,
-          "fell": true
-        },
-        {
-          "profile": 25,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 26,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 27,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 28,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 29,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 30,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 31,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        }
-      ]
-    },
-    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
-  },
-  {
-    "seed": 3004,
-    "time": 19.999999999999794,
-    "best_hold": 0.0,
-    "upright_time": 0.0,
-    "hold": 0.0,
-    "pelvis_height": 0.8424271701646298,
-    "pelvis_pitch": -0.15582318633183403,
-    "pelvis_target_pitch": 0.0,
-    "lumbar_angle": 0.0177832753653601,
-    "pelvis_target_height": 0.8515,
-    "pole_supported": false,
-    "balance_mode": false,
-    "ground_forces": [
-      347.0647284808163,
-      180.04328141603048
-    ],
-    "task": "balance",
-    "spin_angle": 2.0316567881678123,
-    "angular_velocity": -13.744637384557459,
-    "signed_turns": -2.676651779496889,
-    "consecutive_turns": 0.0,
-    "best_consecutive_turns": 0.7569906496601152,
-    "completed_turns": 0,
-    "contact_time": 0.0,
-    "mean_free_rps": -0.17506479864340224,
-    "fast_time": 3.1600000000000024,
-    "peak_rps": 2.43754800014358,
-    "pelvis_y": -0.010813506832625431,
-    "pelvis_roll": -0.02302589557302178,
-    "reward": 10.994405381445299,
-    "fell": false,
-    "success": false,
-    "plan": {
-      "profile": 1,
-      "predicted_success": false,
-      "attempts": [
-        {
-          "profile": 0,
-          "success": false,
-          "metric": 4.739999999999987,
-          "fell": true
         },
         {
           "profile": 1,
@@ -1031,43 +467,43 @@
           "profile": 2,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 3,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 4,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 5,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 6,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 7,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 8,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 9,
@@ -1079,7 +515,7 @@
           "profile": 10,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 11,
@@ -1097,118 +533,22 @@
           "profile": 13,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 14,
           "success": false,
           "metric": 0.0,
-          "fell": true
+          "fell": false
         },
         {
           "profile": 15,
           "success": false,
           "metric": 0.0,
           "fell": false
-        },
-        {
-          "profile": 16,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 17,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 18,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 19,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 20,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 21,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 22,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 23,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 24,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 25,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 26,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 27,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 28,
-          "success": false,
-          "metric": 0.0,
-          "fell": true
-        },
-        {
-          "profile": 29,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 30,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
-        },
-        {
-          "profile": 31,
-          "success": false,
-          "metric": 0.0,
-          "fell": false
         }
       ]
     },
-    "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4"
+    "physical_model_sha256": "24ba7876555f3a97c28a23e43816c418ac2688e74b5ba3dfa569e08606c4289c"
   }
 ]

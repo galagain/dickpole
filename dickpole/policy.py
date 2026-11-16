@@ -8,10 +8,9 @@ import mujoco
 import numpy as np
 
 from .humanoid import HumanoidEnv, humanoid_model_xml
-from .balance_controller import Stabilizer, balance_action
-from .spin_controller import oscillator_action
+from .controller import Stabilizer, action, ARCHITECTURE, PARAMETERS
 
-SCHEMA = 1
+SCHEMA = 2
 
 
 def model_hash():
@@ -19,9 +18,13 @@ def model_hash():
 
 
 def write_manifest(folder, task):
+    stabilizer_sha256=hashlib.sha256(Path(folder,'stabilizer.npz').read_bytes()).hexdigest()
     metadata = dict(schema=SCHEMA, task=task, physical_model_sha256=model_hash(),
-                    action_names=['lateral_pelvis_velocity','vertical_pelvis_velocity'],
-                    episode_seconds=20, target_rotation_rps=2.)
+                    action_names=['lateral_pelvis_velocity','vertical_pelvis_velocity','fore_aft_pelvis_velocity','pelvis_tilt_velocity','pelvis_roll_velocity'],
+                    episode_seconds=20, target_rotation_rps=2.,
+                    controller_architecture=ARCHITECTURE, observation_size=94,
+                    parameter_names=PARAMETERS,stabilizer_sha256=stabilizer_sha256,
+                    reward_spec='shared_rewards_v3')
     Path(folder,'manifest.json').write_text(json.dumps(metadata, indent=2))
 
 
@@ -35,29 +38,31 @@ class TaskPolicy:
     def __init__(self, folder, task=None):
         self.folder = Path(folder)
         self.manifest = json.loads((self.folder/'manifest.json').read_text())
-        self.task = self.manifest['task']
+        self.trained_task = self.manifest['task']
+        self.task = task or self.trained_task
         if self.manifest['schema'] != SCHEMA or self.manifest['physical_model_sha256'] != model_hash():
             raise ValueError('Checkpoint uses a different physical model; retrain it for this environment')
-        if task is not None and self.task != task:
-            raise ValueError(f'Expected {task} checkpoint, found {self.task}')
         with np.load(self.folder/'policy.npz', allow_pickle=False) as bundle:
             self.parameters = bundle['parameters'].copy()
             self.direction = int(bundle['direction'])
-        expected = 9 if self.task == 'balance' else 8
+        if self.manifest.get('controller_architecture') != ARCHITECTURE:
+            raise ValueError('Checkpoint uses a different controller architecture')
+        expected = len(PARAMETERS)
         if self.parameters.ndim != 2 or self.parameters.shape[1] != expected or not np.isfinite(self.parameters).all():
             raise ValueError('Invalid policy parameters')
-        self.stabilizer = Stabilizer(self.folder) if self.task == 'balance' else None
+        actual=hashlib.sha256((self.folder/'stabilizer.npz').read_bytes()).hexdigest()
+        if self.manifest.get('stabilizer_sha256',actual)!=actual:
+            raise ValueError('Checkpoint feedback weights do not match its manifest')
+        self.stabilizer = Stabilizer(self.folder)
         self.selected = 0
 
     def predict(self, env):
-        if env.task != self.task:
-            raise ValueError('Policy task and environment goal differ')
         p = self.parameters[self.selected]
-        return balance_action(env, p, self.stabilizer) if self.task == 'balance' else oscillator_action(env, p)
+        return action(env,p,self.stabilizer)
 
     def select(self, live, horizon=20.):
         """Plan in simulator copies; the live integration state stays untouched."""
-        clone = HumanoidEnv(task=self.task, duration=live.duration, direction=live.direction)
+        clone = HumanoidEnv(task=live.task, duration=live.duration, direction=live.direction)
         clone.model = copy.copy(live.model)
         clone.data = mujoco.MjData(clone.model)
         fields = ('steps','target_x','target_pitch','target_height','target_y','target_roll',
@@ -66,7 +71,7 @@ class TaskPolicy:
                   'best_streak_angle','previous_rotor_angle','stall_time','contact_time',
                   'hold','best_hold','upright_time','control_phase',
                   'free_spin_angle','fast_time','peak_rps','lqr_anchor')
-        best, winner, attempts = (-1., -float('inf'), -float('inf')), 0, []
+        best, winner, attempts = -float('inf'), 0, []
         for i in range(len(self.parameters)):
             mujoco.mj_copyData(clone.data, clone.model, live.data)
             for field in fields:
@@ -79,17 +84,16 @@ class TaskPolicy:
                 total += reward
                 if done or timeout:
                     break
-            success = succeeded(info, self.task, done)
-            metric = info['best_hold'] if self.task == 'balance' else info['mean_free_rps']
-            score = (float(success), metric-10*done, total)
+            success = succeeded(info, clone.task, done)
+            metric = info['best_hold'] if clone.task == 'balance' else info['mean_free_rps']
+            score = total
             attempts.append(dict(profile=i, success=success, metric=metric, fell=done))
             if score > best:
                 best, winner = score, i
-            if success:
-                break
+
         self.selected = winner
         clone.close()
-        return dict(profile=winner, predicted_success=bool(best[0]), attempts=attempts)
+        return dict(profile=winner, predicted_success=bool(attempts[winner]['success']), attempts=attempts)
 
 
 def evaluate(policy, episodes=10, seed=3000, plan=True):
@@ -104,7 +108,7 @@ def evaluate(policy, episodes=10, seed=3000, plan=True):
             total += reward
             if done or timeout:
                 break
-        record = dict(seed=seed+i, **info, reward=total, fell=done,
+        record = dict(seed=seed+i, task=policy.task, trained_task=policy.trained_task, **info, reward=total, fell=done,
                       success=succeeded(info, policy.task, done), plan=selection,
                       physical_model_sha256=model_hash())
         records.append(record)

@@ -25,28 +25,26 @@ def humanoid_model_xml():
     for side in ('l', 'r'):
         joint(f'thigh_{side}', name=f'hip_roll_{side}', axis='1 0 0', range='-.6 .6')
         joint(f'foot_{side}', name=f'ankle_roll_{side}', axis='1 0 0', range='-.6 .6')
-    pelvis_geom = root.find(".//geom[@name='pelvis_geom']")
-    pelvis_geom.set('type', 'ellipsoid')
-    pelvis_geom.set('size', '.18 .14 .10')
-    pelvis_geom.set('pos', '0 0 0')
     rotor = root.find(".//body[@name='pole_0']")
-    # The joint meets a short flesh-coloured root on the front of the pelvis.
-    rotor.set('pos', '.205 0 -.02')
-    rotor.find("joint[@name='pole_0_joint']").set('axis', '1 0 0')
+    rotor.set('pos', '.28 0 -.02')
+    hinge = rotor.find("joint[@name='pole_0_joint']")
+    hinge.set('type', 'hinge')
+    hinge.set('axis', '1 0 0')
+    hinge.set('limited', 'false')
     joint('pole_0', name='pole_splay', axis='0 1 0', range='-.2 .2', stiffness='1.2', damping='.02')
-    # Three 7 cm segments: adult-sized shaft, with the same passive joints.
-    for i in range(3):
-        body = root.find(f".//body[@name='pole_{i}']")
-        if i:
-            body.set('pos', '0 0 -.07')
-        geom = body.find(f"geom[@name='pole_{i}_geom']")
-        geom.set('fromto', '0 0 0 0 0 -.07')
-        geom.set('mass', '.035')
-    root.find(".//site[@name='pole_tip']").set('pos', '0 0 -.07')
     pelvis = root.find(".//body[@name='pelvis']")
     ET.SubElement(pelvis, 'geom', name='anatomical_root', type='capsule',
-                  fromto='.175 0 -.02 .205 0 -.02', size='.028', mass='.015',
-                  contype='1', conaffinity='2', rgba='.93 .67 .57 1')
+                  fromto='.10 0 -.02 .28 0 -.02', size='.012', mass='.01',
+                  contype='0', conaffinity='0', rgba='.93 .67 .57 1')
+    # Camera is on the anatomical front (+X), looking toward the body.
+    world = root.find('worldbody')
+    ET.SubElement(world, 'camera', name='front', pos='3 -.7 1.4',
+                  xyaxes='.234 .972 0 -.176 .043 .983')
+    torso = root.find(".//body[@name='torso']")
+    for side,y in [('l',-.035),('r',.035)]:
+        ET.SubElement(torso, 'geom', name=f'eye_{side}', type='sphere',
+                      pos=f'.103 {y} .635', size='.012', mass='0',
+                      contype='0', conaffinity='0', rgba='.08 .07 .06 1')
     tendons, actuators = root.find('tendon'), root.find('actuator')
     for name in SIDE_JOINTS:
         for direction, sign in [('flexor', -1), ('extensor', 1)]:
@@ -59,7 +57,7 @@ def humanoid_model_xml():
 
 
 class HumanoidEnv(MusculoskeletalBase):
-    """Two commands: lateral pelvis velocity and vertical pelvis velocity.
+    """Five common pelvis target velocities: lateral, vertical, fore-aft, pitch and roll.
 
     The skeleton moves in 3D; a passive front-facing revolute joint and passive
     out-of-plane bending produce the helicopter motion. No rotor motor exists.
@@ -73,18 +71,19 @@ class HumanoidEnv(MusculoskeletalBase):
         self.model = mujoco.MjModel.from_xml_string(humanoid_model_xml())
         self.data = mujoco.MjData(self.model)
         self.duration, self.direction, self.target_speed = duration, direction, target_speed
+        self.shaft_length = .36
         self.tilt_rate = 2.4
         for name in ('_tip_jac', '_base_jac', '_com_jac', '_rotation_jac'):
             setattr(self, name, np.zeros((3, self.model.nv)))
         self.qids = {self.model.joint(i).name: int(self.model.jnt_qposadr[i]) for i in range(self.model.njnt)}
         self.dofs = {self.model.joint(i).name: int(self.model.jnt_dofadr[i]) for i in range(self.model.njnt)}
-        self.action_space = spaces.Box(-1., 1., (2,), dtype=np.float32)
+        self.action_space = spaces.Box(-1., 1., (5,), dtype=np.float32)
         self.reset()
         self.observation_space = spaces.Box(-np.inf, np.inf, self.observe().shape, dtype=np.float32)
 
     def reset(self, *, seed=None, options=None):
         self.target_y = self.target_roll = 0.
-        self.spin_action = np.zeros(2)
+        self.spin_action = np.zeros(5)
         self.signed_angle = self.streak_angle = self.best_streak_angle = 0.
         self.previous_rotor_angle = self.stall_time = 0.
         self.contact_time = 0.
@@ -97,9 +96,9 @@ class HumanoidEnv(MusculoskeletalBase):
     def observe(self):
         angle, speed = self.pole_state()
         return np.r_[self.data.qpos, self.data.qvel*.2, self.data.act,
-                     self.target_y, self.target_height, self.spin_action,
+                     self.target_y, self.target_height, self.target_x, self.target_pitch, self.target_roll, self.spin_action,
                      math.sin(angle), math.cos(angle), speed*.1,
-                     self.direction, self.target_speed*.1, self.data.time/20., float(self.task == 'balance')].astype(np.float32)
+                     self.direction, self.target_speed*.1, self.data.time/20.].astype(np.float32)
 
     def reflex(self):
         super().reflex()
@@ -150,11 +149,14 @@ class HumanoidEnv(MusculoskeletalBase):
 
     def step(self, action):
         action = np.asarray(action, dtype=float)
-        if action.shape != (2,) or not np.isfinite(action).all():
-            raise ValueError('Expected finite [lateral_velocity, vertical_velocity]')
+        if action.shape != (5,) or not np.isfinite(action).all():
+            raise ValueError('Expected finite [lateral, vertical, fore_aft, pitch, roll] velocities')
         self.spin_action = np.clip(action, -1, 1)
         self.target_y = float(np.clip(self.target_y+.5*self.dt*self.spin_action[0], -.14, .14))
-        self.target_height = float(np.clip(self.target_height+.5*self.dt*self.spin_action[1], .78, .87))
+        self.target_height = float(np.clip(self.target_height+.5*self.dt*self.spin_action[1], .78, .89))
+        self.target_x = float(np.clip(self.target_x+.6*self.dt*self.spin_action[2],-.14,.14))
+        self.target_pitch = float(np.clip(self.target_pitch+2.4*self.dt*self.spin_action[3],-.3,.3))
+        self.target_roll = float(np.clip(self.target_roll+2.4*self.dt*self.spin_action[4],-.3,.3))
         for _ in range(10):
             self.reflex()
             mujoco.mj_step(self.model, self.data)
@@ -166,7 +168,7 @@ class HumanoidEnv(MusculoskeletalBase):
         self.previous_rotor_angle = rotor
         delta = self.data.site('pole_tip').xpos-self.data.body('pole_0').xpos
         local = self.data.body('pelvis').xmat.reshape(3, 3).T @ delta
-        free = bool(not self.pole_supported() and np.linalg.norm(local[1:]) > .147)
+        free = bool(not self.pole_supported() and np.linalg.norm(local[1:]) > .7*self.shaft_length)
         progress = self._rotation_progress(change, speed, free)
         self.contact_time += self.dt*(not free)
         z = float(self.data.body('pelvis').xpos[2])
@@ -186,19 +188,21 @@ class HumanoidEnv(MusculoskeletalBase):
         self.upright_time += self.dt*upright
         self.balance_mode = bool(upright_error < .4 and free)
         if self.task == 'balance':
-            reward = self.dt*(2*(1-math.cos(angle))**2 + 20*upright
-                              - .02*speed**2-2*(not free))
+            reward = self.dt*(2*(1-math.cos(angle))**2+100*upright
+                              +4*math.exp(-(upright_error/.3)**2-(world_speed/2)**2)
+                              -.05*speed**2-.005*float(np.mean(self.data.act**2))
+                              -2*(not free))
         else:
             reward = (8*progress/(2*math.pi)
                   - self.dt*(.01*(self.direction*speed-self.target_speed)**2
                              + .005*float(np.mean(self.data.act**2))+2*(not free)))
         if not healthy:
-            reward -= 5.
+            reward -= 100.
         return self.observe(), float(reward), not healthy, self.steps*self.dt >= self.duration, self.info()
 
     def info(self):
         info = super().info()
-        info.update(task=self.task, spin_angle=self.pole_state()[0],
+        info.update(spin_angle=self.pole_state()[0],
                     angular_velocity=self.pole_state()[1],
                     signed_turns=self.signed_angle/(2*math.pi),
                     consecutive_turns=self.streak_angle/(2*math.pi),

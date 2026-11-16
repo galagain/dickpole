@@ -1,11 +1,19 @@
 {
   "task": "balance",
-  "algorithm": "CEM episodic policy search",
-  "steps": 180162,
+  "algorithm": "shared CEM, undiscounted environment return",
+  "steps": 100640,
   "seed": 7,
   "population": 20,
-  "rounds": 17,
+  "rounds": 4,
   "parameter_names": [
+    "lateral_radius",
+    "vertical_radius",
+    "frequency",
+    "locked_phase",
+    "phase_feedback",
+    "height_center",
+    "vertical_phase",
+    "speed_threshold",
     "energy_target",
     "pumping_gain",
     "position_damping",
@@ -14,10 +22,10 @@
     "crouch_height",
     "capture_angle",
     "capture_speed",
-    "feedback_gain"
+    "feedback_gain",
+    "oscillator_fraction",
+    "capture_enabled",
+    "roll_pumping"
   ],
-  "physical_model_sha256": "4f6e851eb046698d256298c8317eb26af2c82db6f1380cdb75d57708bf0c71c4",
-  "library_selected_after_steps": 80005,
-  "parameter_profiles": 32,
-  "initializer": "calibrated energy-shaping controller"
+  "physical_model_sha256": "24ba7876555f3a97c28a23e43816c418ac2688e74b5ba3dfa569e08606c4289c"
 }

@@ -29,7 +29,7 @@ def main():
             command.add_argument('--episodes', type=int, default=10)
     args = parser.parse_args()
     if args.seed is None:
-        args.seed = 7 if args.command == 'train' or (args.task == 'balance' and args.command != 'evaluate') else 3000
+        args.seed = 3000 if args.command == 'evaluate' else 7
     included = ROOT/'models'/args.task
     if hasattr(args, 'model'):
         args.model = args.model or included
